@@ -1,33 +1,42 @@
 import express from 'express';
 import { createConnection } from 'mysql';
- 
-// create an Express app
-const app = express();
-const PORT = 8000; // Change the port to a different value
- 
+import fs from 'fs';
 
-// making server listen to request
+const sql = fs.readFileSync('./data.sql').toString();
+const app = express();
+const PORT = 8000;
+
+const con = createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+
+  // // uncomment after running the query on line 22 
+  // // and type db name after running for the first time
+  // database: 'test8',
+  // ***************
+
+  multipleStatements: true,
+});
+
+con.connect(function (err) {
+  if (err) throw err;
+  console.log('Connected!');
+
+  
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log('Database and table created');
+  });
+ 
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at : http://localhost:${PORT}/`);
 });
 
-const connection = createConnection({
-  host: 'localhost',
-  port: 3306,
-  database: 'clementine',
-  user: 'root',
-  password: ''
-});
- 
-connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to MySQL database:', error);
-  }
-});
-
-// creating route for the app
 app.get('/Users', (req, res) => {
-  connection.query('SELECT * FROM Users', function (err, rows) {
+  con.query('SELECT * FROM Users', function (err, rows) {
     if (!err) {
       res.send(JSON.stringify(rows));
     } else {
