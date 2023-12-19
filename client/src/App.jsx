@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import clementineLogo from '../public/clementine.png'
+import clementineLogo from '/clementine.png'
 import './App.css'
 
 function App() {

@@ -13,7 +13,7 @@ const con = createConnection({
 
   // // uncomment after running the query on line 22 
   // // and type db name after running for the first time
-  // database: 'test8',
+  database: 'proof',
   // ***************
 
   multipleStatements: true,
@@ -24,10 +24,10 @@ con.connect(function (err) {
   console.log('Connected!');
 
   
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log('Database and table created');
-  });
+  // con.query(sql, function (err, result) {
+  //   if (err) throw err;
+  //   console.log('Database and table created');
+  // });
  
 });
 
