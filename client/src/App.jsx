@@ -1,10 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import clementineLogo from '../public/clementine.png'
-import './App.css'
+import reactLogo from "./assets/react.svg";
+import clementineLogo from "../public/clementine.png";
+import "./App.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user, getAccessTokenSilently } = useAuth0();
+  const { logout, isAuthenticated } = useAuth0();
+
+  const createCustomer = () => {
+    getAccessTokenSilently().then((token) => {
+      console.log(token);
+    });
+  };
 
   return (
     <>
@@ -18,18 +25,15 @@ function App() {
       </div>
       <h1>Clementine</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        !isAuthenticated && (
+        <button onClick={() => logout()}>sign in</button>)
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <pre>{JSON.stringify(user, null, 4)}</pre>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
