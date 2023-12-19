@@ -27,7 +27,8 @@ CREATE TABLE PaymentMethods (
 -- This table stores information about properties owned by landlords.
 CREATE TABLE Properties (
     PropertyID INT PRIMARY KEY,      -- Unique identifier for each property.
-    LandlordID INT,                  -- Foreign key referencing the Users table for landlord.
+    LandlordID INT,
+    RentPrice DECIMAL (10,2) NOT NULL,                  -- Foreign key referencing the Users table for landlord.
     Address VARCHAR(255) NOT NULL,   -- Address of the property.
     FOREIGN KEY (LandlordID) REFERENCES Users(UserID) -- Relationship with Users table.
 );
