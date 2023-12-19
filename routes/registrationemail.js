@@ -1,31 +1,32 @@
-
-function sendEmail(toEmail)  {
-  const { exec } = require('child_process');
+export async function sendEmail(toEmail) {
   const apiKey = 'd83219af3bc7abe201e3651f04d9b4fd-5e3f36f5-d8746cc4';
   const fromEmail = 'Excited User <mailgun@sandbox5ebc1c78dc6c4810bcd5a0473c27efc7.mailgun.org>';
   const subject = 'Welcome to Clementine';
   const text = 'Congratulations on scoring your new place! Follow this link to access Clementine: The secure rent payment application - localhost:3000/register/user';
 
-  const curlCommand = `curl -s -i --user 'api:${apiKey}' \
-  https://api.mailgun.net/v3/sandbox5ebc1c78dc6c4810bcd5a0473c27efc7.mailgun.org/messages \
-      -F from='${fromEmail}' \
-      -F to=${toEmail} \
-      -F subject='${subject}' \
-      -F text='${text}'`;
+  const mailgunEndpoint = 'https://api.mailgun.net/v3/sandbox5ebc1c78dc6c4810bcd5a0473c27efc7.mailgun.org/messages';
 
-  exec(curlCommand, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error: ${error.message}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-    console.error(`stderr: ${stderr}`);
-  });
+  const formData = new FormData();
+  formData.append('from', fromEmail);
+  formData.append('to', toEmail);
+  formData.append('subject', subject);
+  formData.append('text', text);
+
+  try {
+    const response = await fetch(mailgunEndpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${btoa(`api:${apiKey}`)}`,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+    console.log('Email sent successfully:', result);
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
 }
-
-const email = 'garrett.boscoe@gmail.com';
-sendEmail(email); 
-
 
 
 
