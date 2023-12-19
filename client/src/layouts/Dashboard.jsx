@@ -12,18 +12,18 @@
   }
   ```
 */
+
+import { TenantItem, TenantRentDue } from '../components';
 import { Fragment, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
 	Bars3Icon,
+	PhoneIcon,
+	MapIcon,
+	CurrencyDollarIcon,
 	BellIcon,
-	CalendarIcon,
-	ChartPieIcon,
 	Cog6ToothIcon,
-	DocumentDuplicateIcon,
 	FolderIcon,
-	HomeIcon,
-	UsersIcon,
 	XMarkIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -32,12 +32,10 @@ import {
 } from '@heroicons/react/20/solid';
 
 const navigation = [
-	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-	{ name: 'Team', href: '#', icon: UsersIcon, current: false },
-	{ name: 'Projects', href: '#', icon: FolderIcon, current: false },
-	{ name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-	{ name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-	{ name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+	{ name: 'Pay Rent', href: '#', icon: CurrencyDollarIcon, current: true },
+	{ name: 'Contact LandLord', href: '#', icon: PhoneIcon, current: false },
+	{ name: 'Property Overview', href: '#', icon: MapIcon, current: false },
+	{ name: 'Documents', href: '#', icon: FolderIcon, current: false },
 ];
 const teams = [
 	{ id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
@@ -55,6 +53,7 @@ function classNames(...classes) {
 
 export default function Example() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const amountDue = 1000;
 
 	return (
 		<>
@@ -443,11 +442,21 @@ export default function Example() {
 						</div>
 					</div>
 
-					<main className='py-10'>
-						<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-							{/* Your content */}
-						</div>
-					</main>
+					<main className="py-10 lg:pl-72">
+					<div className="px-4 sm:px-6 lg:px-8">
+						{/* Dashboard components go here */}
+						<h1 className="text-2xl font-semibold mb-4">Welcome to Your Dashboard</h1>
+						<p className="text-gray-600">This is where you can display your components and content.</p>
+						{/** Items go here */}
+						<div className="flex space-x-4">
+						<TenantRentDue amountDue = {amountDue} />
+							<TenantItem />
+							<TenantItem />
+							<TenantItem />
+							<TenantRentDue amountDue = {amountDue} />
+           	 			</div>
+          	</div>                
+        </main>
 				</div>
 			</div>
 		</>
