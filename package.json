@@ -4,7 +4,7 @@
   "description": "server",
   "type": "module",
   "scripts": {
-    "server": "node index.js",
+    "server": "node server/routes/index.js",
     "dev": "concurrently \"npm run server\" \"cd client && npm run dev\""
   },
   "author": "",
