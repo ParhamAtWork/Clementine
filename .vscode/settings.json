@@ -1,14 +1,15 @@
 {
+  "css.lint.unknownAtRules": "ignore",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "client/.vite/deps_temp_64de3889": true,
-    "client/.vite": true,
-    ".vscode": true
+    "**/Thumbs.db": true
   },
   "hide-files.files": [
     "client/.vite/deps_temp_64de3889",

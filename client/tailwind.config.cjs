@@ -1,24 +1,23 @@
 /* eslint-disable no-undef */
 // tailwind.config.js
-
+// TO DO: Add Fira Sans
 const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
-		extend: {
-			colors: {
-				'light-gray': '#e9ecef',
-				'dark-gray': '#868e96',
-				'orange': '#fd7e14',
-				'dark-green': '#2f9e44',
-				'light-green': '#b2f2bb',
-				'light-orange': '#fff4e6',
-				'light-red': '#ffc9c9',
-			},
-			fontFamily: {
-				sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-			},
+		colors: {
+			orange: '#f98500',
+			green: '#70c43f',
+			stone: '#fffcf9',
+		},
+		backgroundColor: {
+			'custom-theme': '#fffcf9',
+			stone: '#fffcf9'
+		},
+		fontFamily: {
+			sans: ['Fira Sans', ...defaultTheme.fontFamily.sans],
 		},
 	},
 	plugins: [

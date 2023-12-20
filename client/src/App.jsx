@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import clementineLogo from '../public/clementine.png'
-import './App.css'
-import Example from './pages/Dashboard'
+// import { useState } from 'react'
+import './assets/clementinesv.svg';
+import '../public/clementine.png';
+import './App.css';
+import Dashboard from './pages/Dashboard';
 
 function App() {
-  return (
-    <>
-      <Example />
-    </>
-  )
+	return (
+		<>
+			<Dashboard />
+		</>
+	);
 }
 
-export default App
+export default App;
