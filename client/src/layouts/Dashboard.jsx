@@ -13,7 +13,7 @@
   ```
 */
 
-import { TenantItem, TenantRentDue } from '../components';
+import { TenantItem, TenantRentDue, PaymentSelection } from '../components';
 import { Fragment, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
@@ -454,6 +454,7 @@ export default function Example() {
 							<TenantItem />
 							<TenantItem />
 							<TenantRentDue amountDue = {amountDue} />
+							<PaymentSelection />
            	 			</div>
           	</div>                
         </main>
