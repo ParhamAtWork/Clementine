@@ -2,7 +2,7 @@
   "name": "clementine-server",
   "version": "1.0.0",
   "description": "server",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "server": "node ./routes/index.js",
     "dev": "concurrently \"cd routes && npm run server\" \"cd client && npm run dev\""
