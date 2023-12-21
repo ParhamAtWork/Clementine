@@ -5,16 +5,20 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	content: [
+		'./index.html',
+		'client/src/components/landlordComponents/LDocuments.jsx',
+		'./src/**/*.{js,ts,jsx,tsx}',
+	],
 	theme: {
 		colors: {
 			orange: '#f98500',
-			green: '#70c43f',
+			green: '#52b386ff',
 			stone: '#fffcf9',
 		},
 		backgroundColor: {
 			'custom-theme': '#fffcf9',
-			stone: '#fffcf9'
+			stone: '#fffcf9',
 		},
 		fontFamily: {
 			sans: ['Fira Sans', ...defaultTheme.fontFamily.sans],

@@ -2,27 +2,27 @@ import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
 	Bars3Icon,
-	CreditCardIcon,
+	CurrencyDollarIcon,
 	DocumentDuplicateIcon,
-	HomeIcon,
+	BuildingOffice2Icon,
 	UsersIcon,
 } from '@heroicons/react/24/outline';
-import clementineLogo from '../assets/clementinesv.svg';
-import PayRent from '../components/PayRent';
-import ContactLandlord from '../components/ContactLandlord';
-import PropertyOverview from '../components/PropertyOverview';
-import PaymentHistory from '../components/PaymentHistory';
+import clementineLogo from '../../assets/clementinesv.svg';
+import ContactTenant from '../../components/landlordComponents/LTenantList';
+import PropertyOverview from '../../components/landlordComponents/LPropertyList';
+import PaymentDashboard from '../../components/landlordComponents/LPaymentDashboard';
+import Documents from '../../components/landlordComponents/LDocuments';
 
 const navigation = [
-	{ name: 'Pay Rent', href: '#', icon: CreditCardIcon, current: true },
-	{ name: 'Contact Landlord', href: '#', icon: UsersIcon, current: false },
-	{ name: 'Property Overview', href: '#', icon: HomeIcon, current: false },
 	{
-		name: 'Payment History',
+		name: 'Payment Dashboard',
 		href: '#',
-		icon: DocumentDuplicateIcon,
-		current: false,
+		icon: CurrencyDollarIcon,
+		current: true,
 	},
+	{ name: 'Tenants', href: '#', icon: UsersIcon, current: false },
+	{ name: 'Properties', href: '#', icon: BuildingOffice2Icon, current: false },
+	{ name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
 ];
 
 function classNames(...classes) {
@@ -40,7 +40,7 @@ export default function Example() {
 
 	return (
 		<>
-			<div className='bg-stone'>
+			<div className='bg-custom-theme'>
 				<Transition.Root
 					show={sidebarOpen}
 					as={Fragment}
@@ -149,10 +149,10 @@ export default function Example() {
 
 				<main className='bg-stone lg:pl-72'>
 					<div className='px-4 py-10 sm:px-6 lg:px-8 lg:py-6'>
-						{activeComponent === 'Pay Rent' && <PayRent />}
-						{activeComponent === 'Contact Landlord' && <ContactLandlord />}
-						{activeComponent === 'Property Overview' && <PropertyOverview />}
-						{activeComponent === 'Payment History' && <PaymentHistory />}
+						{activeComponent === 'Payment Dashboard' && <PaymentDashboard />}
+						{activeComponent === 'Tenants' && <ContactTenant />}
+						{activeComponent === 'Properties' && <PropertyOverview />}
+						{activeComponent === 'Documents' && <Documents />}
 					</div>
 				</main>
 			</div>

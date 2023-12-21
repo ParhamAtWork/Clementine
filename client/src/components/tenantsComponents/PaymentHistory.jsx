@@ -1,13 +1,18 @@
 import { Fragment, useState } from 'react';
-import { Dialog } from '@headlessui/react';
+// eslint-disable-next-line no-unused-vars
+import { Dialog, RadioGroup, Transition } from '@headlessui/react';
+// import InvoicePopover from '../components/InvoicePopover'
 import {
 	ArrowDownCircleIcon,
 	ArrowPathIcon,
 	ArrowUpCircleIcon,
-	Bars3Icon,
+	// eslint-disable-next-line no-unused-vars
+	StarIcon,
 } from '@heroicons/react/20/solid';
+// eslint-disable-next-line no-unused-vars
 import { BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
+// eslint-disable-next-line no-unused-vars
 const navigation = [
 	{ name: 'Home', href: '#' },
 	{ name: 'Invoices', href: '#' },
@@ -83,60 +88,16 @@ function classNames(...classes) {
 }
 
 export default function PaymentHistory() {
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	// eslint-disable-next-line no-unused-vars
+	const [activeComponent, setActiveComponent] = useState(null);
+	// eslint-disable-next-line no-unused-vars
+	const showComponent = (componentName) => {
+		setActiveComponent(componentName);
+	};
 
 	return (
 		<>
-			<header className='absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10'>
-				<div className='mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8'>
-					<div className='flex flex-1 items-center gap-x-6'>
-						<button
-							type='button'
-							className='-m-3 p-3 md:hidden'
-							onClick={() => setMobileMenuOpen(true)}
-						>
-							<span className='sr-only'>Open main menu</span>
-							<Bars3Icon
-								className='h-5 w-5 text-gray-900'
-								aria-hidden='true'
-							/>
-						</button>
-					</div>
-					
-					<div className='flex flex-1 items-center justify-end gap-x-8'>			
-					</div>
-				</div>
-				<Dialog
-					as='div'
-					className='lg:hidden'
-					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}
-				>
-					<div className='fixed inset-0 z-50' />
-					<Dialog.Panel className='fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-white px-4 pb-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10'>
-						<div className='-ml-0.5 flex h-16 items-center gap-x-6'>
-							<button
-								type='button'
-								className='-m-2.5 p-2.5 text-gray-700'
-								onClick={() => setMobileMenuOpen(false)}
-							>
-								<span className='sr-only'>Close menu</span>
-								<XMarkIcon
-									className='h-6 w-6'
-									aria-hidden='true'
-								/>
-							</button>
-							<div className='-ml-0.5'>
-								<a
-									href='#'
-									className='-m-1.5 block p-1.5'
-								>
-								</a>
-							</div>
-						</div>
-					</Dialog.Panel>
-				</Dialog>
-			</header>
+			<header className='absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10' />
 
 			<main>
 				<div className='space-y-16 py-16 xl:space-y-20'>
