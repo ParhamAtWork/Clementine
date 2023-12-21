@@ -128,10 +128,10 @@ const cardNum = "4005550000000029"
 const price = 123123.00
 const cardExpMonth = "01"
 const cardExpYear = "2035"
-//makePayment(price, cardNum, cardExpMonth, cardExpYear);
+makePayment(price, cardNum, cardExpMonth, cardExpYear);
 
 //Mock Data - getPayment
 const transactionId = "f2ad8e0a7b7a4e13b0c25621f890cf2a";
-getPayment(transactionId);
+//getPayment(transactionId);
 
 //makeApplePayment();
