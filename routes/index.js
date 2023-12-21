@@ -139,9 +139,9 @@ app.get('/PaymentMethods', (req, res) => {
 });
 
 app.post('/PaymentMethods', (req, res) => {
-  const { MethodID, UserID, MethodType, CardNumber } = req.body;
-  const query = 'INSERT INTO PaymentMethods (MethodID, UserID, MethodType, CardNumber) VALUES (?, ?, ?, ?)';
-  con.query(query, [MethodID, UserID, MethodType, CardNumber], function(err) {
+  const { MethodID, MethodType } = req.body;
+  const query = 'INSERT INTO PaymentMethods (MethodID, MethodType) VALUES (?, ?)';
+  con.query(query, [MethodID,  MethodType], function(err) {
     if (!err) {
       res.send('Payment method added successfully.');
     } else {
@@ -153,9 +153,9 @@ app.post('/PaymentMethods', (req, res) => {
 
 app.put('/PaymentMethods/:id', (req, res) => {
   const MethodID = req.params.id;
-  const { UserID, MethodType, CardNumber } = req.body;
+  const { MethodType } = req.body;
   const query = 'UPDATE PaymentMethods SET UserID = ?, MethodType = ?, CardNumber = ? WHERE MethodID = ?';
-  con.query(query, [UserID, MethodType, CardNumber, MethodID], function(err) {
+  con.query(query, [MethodType, MethodID], function(err) {
     if (!err) {
       res.send('Payment method updated successfully.');
     } else {
@@ -190,9 +190,9 @@ app.get('/Properties', (req, res) => {
 });
 
 app.post('/Properties', (req, res) => {
-  const { PropertyID, LandlordID, Address } = req.body;
-  const query = 'INSERT INTO Properties (PropertyID, LandlordID, Address) VALUES (?, ?, ?)';
-  con.query(query, [PropertyID, LandlordID, Address], function(err) {
+  const { PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance } = req.body;
+  const query = 'INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance) VALUES (?, ?, ?, ?, ?, ?)';
+  con.query(query, [PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance], function(err) {
     if (!err) {
       res.send('Property added successfully.');
     } else {
@@ -204,9 +204,9 @@ app.post('/Properties', (req, res) => {
 
 app.put('/Properties/:id', (req, res) => {
   const PropertyID = req.params.id;
-  const { LandlordID, Address } = req.body;
-  const query = 'UPDATE Properties SET LandlordID = ?, Address = ? WHERE PropertyID = ?';
-  con.query(query, [LandlordID, Address, PropertyID], function(err) {
+  const { LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance } = req.body;
+  const query = 'UPDATE Properties SET LandlordID = ?, Rent = ?, Address = ?, Unit = ?, DueDayOfMonth = ?, OutstandingBalance = ? WHERE PropertyID = ?';
+  con.query(query, [PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance], function(err) {
     if (!err) {
       res.send('Property updated successfully.');
     } else {
@@ -241,9 +241,9 @@ app.get('/Transactions', (req, res) => {
 });
 
 app.post('/Transactions', (req, res) => {
-  const { TransactionID, PropertyID, TenantID, Amount, PaymentMethodID } = req.body;
-  const query = 'INSERT INTO Transactions (TransactionID, PropertyID, TenantID, Amount, PaymentMethodID) VALUES (?, ?, ?, ?, ?)';
-  con.query(query, [TransactionID, PropertyID, TenantID, Amount, PaymentMethodID], function(err) {
+  const { TransactionID, PropertyID, TenantID, Amount, PaymentMethodID, TransactionDate, CardNumber, RoutingNumber, DigitalWalletConfirmation, FiservPaymentID } = req.body;
+  const query = 'INSERT INTO Transactions (TransactionID, PropertyID, TenantID, Amount, PaymentMethodID, TransactionDate, CardNumber, RoutingNumber, DigitalWalletConfirmation, FiservPaymentID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  con.query(query, [TransactionID, PropertyID, TenantID, Amount, PaymentMethodID, TransactionDate, CardNumber, RoutingNumber, DigitalWalletConfirmation, FiservPaymentID], function(err) {
     if (!err) {
       res.send('Transaction added successfully.');
     } else {
@@ -255,9 +255,9 @@ app.post('/Transactions', (req, res) => {
 
 app.put('/Transactions/:id', (req, res) => {
   const TransactionID = req.params.id;
-  const { PropertyID, TenantID, Amount, PaymentMethodID } = req.body;
-  const query = 'UPDATE Transactions SET PropertyID = ?, TenantID = ?, Amount = ?, PaymentMethodID = ? WHERE TransactionID = ?';
-  con.query(query, [PropertyID, TenantID, Amount, PaymentMethodID, TransactionID], function(err) {
+  const { PropertyID, TenantID, Amount, PaymentMethodID, TransactionDate, CardNumber, RoutingNumber, DigitalWalletConfirmation, FiservPaymentID } = req.body;
+  const query = 'UPDATE Transactions SET PropertyID = ?, TenantID = ?, Amount = ?, PaymentMethodID = ?, TransactionDate = ?, CardNumber = ?, RoutingNumber = ?, DigitalWalletConfirmation = ?, FiservPaymentID = ? WHERE TransactionID = ?';
+  con.query(query, [PropertyID, TenantID, Amount, PaymentMethodID, TransactionID, TransactionDate, CardNumber, RoutingNumber, DigitalWalletConfirmation, FiservPaymentID], function(err) {
     if (!err) {
       res.send('Transaction updated successfully.');
     } else {
