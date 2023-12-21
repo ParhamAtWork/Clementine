@@ -5,6 +5,9 @@ const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
 const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
 
 
+//-------------------------------------------------
+//MAKE CREDIT CARD TRANSACTION---------------------
+//-------------------------------------------------
 function makePayment(price, cardNum, cardExpMonth, cardExpYear){
     const BASE_URL = 'https://cert.api.fiservapps.com/ch/payments/v1/charges';
     const request = {
@@ -48,13 +51,30 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
       'Authorization': computedHmac
       };
 
-        
-    //MAKE TRANSACTION
     axios.post(BASE_URL, requestBody, { headers })
       .then(response => console.log(response.data))
       .catch(error => console.error("Error making payment: ", error.response.data));
 }
 
+//-------------------------------------------------
+//MAKE ECH TRANSACTION-----------------------------
+//-------------------------------------------------
+function makeEchPayment(){
+  
+}
+
+
+//-------------------------------------------------
+//MAKE APPLE PAY TRANSACTION-----------------------
+//-------------------------------------------------
+function makeApplePayment (){
+
+}
+
+
+//-------------------------------------------------
+//GET PAYMENT INFORMATION--------------------------
+//-------------------------------------------------
 function getPayment(transactionId){
     const BASE_URL = 'https://cert.api.fiservapps.com/ch//payments/v1/transaction-inquiry';
     
@@ -66,7 +86,6 @@ function getPayment(transactionId){
         "merchantId" : "100008000003683"
       }
     }
-
     
     var requestBody = JSON.stringify(request)
     var ClientRequestId = Math.floor((Math.random() * 10000000) + 1);
@@ -91,9 +110,6 @@ function getPayment(transactionId){
       .catch(error => console.error("Error making payment: ", error.response.data));
 }
 
-function makeApplePayment (){
-
-}
 
 function b64encode (input) {
     var swaps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",  "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/"],
@@ -134,4 +150,5 @@ makePayment(price, cardNum, cardExpMonth, cardExpYear);
 const transactionId = "f2ad8e0a7b7a4e13b0c25621f890cf2a";
 //getPayment(transactionId);
 
+//Mock Data - makeApplePayment
 //makeApplePayment();
