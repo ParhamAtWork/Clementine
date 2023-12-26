@@ -8,25 +8,25 @@ const people = [
 	{
 		name: 'Lindsay Walton',
 		title: 'Front-end Developer',
-		email: 'lindsay.walton@example.com',
+		email: 'lindsay.walton2@example.com',
 		role: 'Member',
 	},
 	{
 		name: 'Lindsay Walton',
 		title: 'Front-end Developer',
-		email: 'lindsay.walton@example.com',
+		email: 'lindsay.walton3@example.com',
 		role: 'Member',
 	},
 	{
 		name: 'Lindsay Walton',
 		title: 'Front-end Developer',
-		email: 'lindsay.walton@example.com',
+		email: 'lindsay.walton4@example.com',
 		role: 'Member',
 	},
 	{
 		name: 'Lindsay Walton',
 		title: 'Front-end Developer',
-		email: 'lindsay.walton@example.com',
+		email: 'lindsay.walton5@example.com',
 		role: 'Member',
 	},
 	// More people...

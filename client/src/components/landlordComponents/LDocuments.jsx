@@ -9,7 +9,7 @@ const transactions = [
 		netAmount: '$4,397.00',
 	},
 	{
-		id: 'AAPS0L',
+		id: 'AAPS0L1',
 		company: 'Chase & Co.',
 		share: 'CAC',
 		commission: '+$4.37',
@@ -18,7 +18,7 @@ const transactions = [
 		netAmount: '$4,397.00',
 	},
 	{
-		id: 'AAPS0L',
+		id: 'AAPS0L2',
 		company: 'Chase & Co.',
 		share: 'CAC',
 		commission: '+$4.37',
@@ -27,7 +27,7 @@ const transactions = [
 		netAmount: '$4,397.00',
 	},
 	{
-		id: 'AAPS0L',
+		id: 'AAPS0L3',
 		company: 'Chase & Co.',
 		share: 'CAC',
 		commission: '+$4.37',
@@ -36,7 +36,7 @@ const transactions = [
 		netAmount: '$4,397.00',
 	},
 	{
-		id: 'AAPS0L',
+		id: 'AAPS0L4',
 		company: 'Chase & Co.',
 		share: 'CAC',
 		commission: '+$4.37',
@@ -45,7 +45,7 @@ const transactions = [
 		netAmount: '$4,397.00',
 	},
 	{
-		id: 'AAPS0L',
+		id: 'AAPS0L5',
 		company: 'Chase & Co.',
 		share: 'CAC',
 		commission: '+$4.37',
