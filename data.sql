@@ -1,7 +1,12 @@
 CREATE DATABASE IF NOT EXISTS proof;
-
--- Use the clementine database
 USE proof;
+
+DROP TABLE IF EXISTS PaymentHistory;
+DROP TABLE IF EXISTS Transactions;
+DROP TABLE IF EXISTS Properties;
+DROP TABLE  IF EXISTS PaymentMethods;
+DROP TABLE IF EXISTS Users;
+-- Use the clementine database
 
 -- Table: Users
 -- This table stores information about users.
@@ -17,18 +22,19 @@ CREATE TABLE Users (
 -- This table stores information about payment methods associated with users.
 CREATE TABLE PaymentMethods (
     MethodID INT PRIMARY KEY,        -- Unique identifier for each payment method.
-    UserID INT,                      -- Foreign key referencing the Users table.
-    MethodType VARCHAR(20) NOT NULL, -- Type of payment method (e.g., credit card).
-    CardNumber VARCHAR(16),          -- Card number for credit card.
-    FOREIGN KEY (UserID) REFERENCES Users(UserID) -- Relationship with Users table.
+    MethodType VARCHAR(20) NOT NULL -- Type of payment method (e.g., credit card).
 );
 
 -- Table: Properties
 -- This table stores information about properties owned by landlords.
 CREATE TABLE Properties (
     PropertyID INT PRIMARY KEY,      -- Unique identifier for each property.
-    LandlordID INT,                  -- Foreign key referencing the Users table for landlord.
-    Address VARCHAR(255) NOT NULL,   -- Address of the property.
+    LandlordID INT NOT NULL,         -- Foreign key referencing the Users table for landlord.
+    Rent DECIMAL(10,2) NOT NULL,     -- Price in rent for the property.
+    Address VARCHAR(255) NOT NULL,
+    Unit VARCHAR (10) DEFAULT NULL,   -- Address of the property.
+    DueDayOfMonth INT(4),            -- Day of the month on which rent is due
+    OutstandingBalance DECIMAL(10,2) NOT NULL,        -- Total amount of rent past due
     FOREIGN KEY (LandlordID) REFERENCES Users(UserID) -- Relationship with Users table.
 );
 
@@ -36,15 +42,20 @@ CREATE TABLE Properties (
 -- This table stores information about financial transactions.
 CREATE TABLE Transactions (
     TransactionID INT PRIMARY KEY,         -- Unique identifier for each transaction.
-    PropertyID INT,                        -- Foreign key referencing the Properties table.
-    TenantID INT,                          -- Foreign key referencing the Users table for tenant.
+    PropertyID INT NOT NULL,                        -- Foreign key referencing the Properties table.
+    TenantID INT NOT NULL,                          -- Foreign key referencing the Users table for tenant.
     Amount DECIMAL(10, 2) NOT NULL,        -- Amount of the transaction.
-    PaymentMethodID INT,                   -- Foreign key referencing the PaymentMethods table.
+    PaymentMethodID INT NOT NULL,                   -- Foreign key referencing the PaymentMethods table.
     TransactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date and time of the transaction.
+    CardNumber VARCHAR(16) DEFAULT NULL,                 -- Card number for credit card.
+    RoutingNumber VARCHAR(16) DEFAULT NULL,              -- Routing number for check/bankaccount
+    DigitalWalletConfirmation VARCHAR(30) DEFAULT NULL,
+    FiservPaymentID VARCHAR(50)   -- Digital Wallet Confirmation number
     FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID), -- Relationship with Properties table.
     FOREIGN KEY (TenantID) REFERENCES Users(UserID),           -- Relationship with Users table.
     FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethods(MethodID) -- Relationship with PaymentMethods table.
 );
+
 
 -- Table: PaymentHistory
 -- This table stores the payment history associated with transactions.
@@ -56,8 +67,27 @@ CREATE TABLE PaymentHistory (
     FOREIGN KEY (TransactionID) REFERENCES Transactions(TransactionID) -- Relationship with Transactions table.
 );
 
+
+
+
 INSERT INTO Users
 VALUES
   (1, 'admin', 'admin_user', 'hashed_password_admin', 'admin@example.com'),
   (2, 'regular', 'john_doe', 'hashed_password_user1', 'john.doe@example.com'),
   (3, 'regular', 'jane_smith', 'hashed_password_user2', 'jane.smith@example.com');
+
+INSERT INTO PaymentMethods
+VALUES
+  (1, 'credit'),
+  (2, 'check'),
+  (3, 'digital wallet');
+
+INSERT INTO Properties
+VALUES 
+  (1, 1, 2, 1000.00, '627 E 6th Street, Unit 2, New York NY 10009', 1 ),
+  (2, 1, 3, 20000.00, '100 Connell Drive, NULL, Berkeley Heights NJ 07922', 4);
+
+INSERT INTO Transactions (TransactionID, PropertyID, TenantID, Amount, PaymentMethodID, CardNumber, RoutingNumber, DigitalWalletConfirmation)
+VALUES
+  (1, 1, 1, 1000.00, 1, NULL, '123123123', NULL),
+  (2, 2, 2, 20000.00, 2, '1234567890', NULL, NULL);

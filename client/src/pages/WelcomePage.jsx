@@ -9,28 +9,15 @@ import.meta.env;
 export default function Example() {
 	const { loginWithRedirect } = useAuth0();
 	const navigate = useNavigate();
-
-	// const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-	// const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-	// const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
-
-	// const onRedirectCallback = (appState) => {
-	// 	navigate(appState?.returnTo || window.location.pathname);
-	// };
-
-	// if (!(domain && clientId && redirectUri)) {
-	// 	return null;
-	// }
+	const handleLogin = async () => {
+		await loginWithRedirect({
+			appState: {
+				returnTo: '/landlord-dashboard',
+			},
+		});
+	};
 
 	return (
-		// <Auth0Provider
-		// 	domain={domain}
-		// 	clientId={clientId}
-		// 	authorizationParams={{
-		// 		redirect_uri: redirectUri,
-		// 	}}
-		// 	onRedirectCallback={onRedirectCallback}
-		// >
 		<div>
 			<header className='absolute inset-x-0 top-0 z-50'>
 				<nav
@@ -64,7 +51,7 @@ export default function Example() {
 						</h4>
 						<div className='mt-10 flex items-center justify-center gap-x-6'>
 							<button
-								onClick={() => loginWithRedirect()}
+								onClick={handleLogin}
 								className='bg-[#558540] text-stone hover:text-stone w-auto px-10 py-2 border-2 border-[#000]'
 							>
 								Log in
@@ -78,6 +65,5 @@ export default function Example() {
 				></div>
 			</div>
 		</div>
-		// </Auth0Provider>
 	);
 }

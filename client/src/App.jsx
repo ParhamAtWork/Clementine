@@ -22,33 +22,23 @@ function App() {
 
 	return (
 		<>
-			<Auth0Provider
-				domain='dev-wyvx8c2jswjwvuxo.us.auth0.com'
-				clientId='HSjhZMZWxMGNxjM5DtBD5hTxHH0Fm0ql'
-				authorizationParams={{
-					redirect_uri: 'http://localhost:3000/landlord-dashboard',
-				}}
-			>
-				<Router>
-					<Routes>
-						<Route
-							exact
-							path='/'
-							element={<WelcomePage />}
-						/>
-						isAuthenticated && (
-						<Route
-							path='/landlord-dashboard'
-							element={<LDashboard />}
-						/>
-						<Route
-							path='/tenant-dashboard'
-							element={<Dashboard />}
-						/>
-						)
-					</Routes>
-				</Router>
-			</Auth0Provider>
+			<Routes>
+				<Route
+					exact
+					path='/'
+					element={<WelcomePage />}
+				/>
+				isAuthenticated && (
+				<Route
+					path='/landlord-dashboard'
+					element={<LDashboard />}
+				/>
+				<Route
+					path='/tenant-dashboard'
+					element={<Dashboard />}
+				/>
+				)
+			</Routes>
 		</>
 	);
 }
