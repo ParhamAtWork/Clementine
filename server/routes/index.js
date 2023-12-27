@@ -331,4 +331,9 @@ app.delete('/PaymentHistory/:id', (req, res) => {
     }
   });
 });
+
+app.get('/secret', async (req, res) => {
+  const intent = // ... Fetch or create the PaymentIntent
+  res.json({client_secret: intent.client_secret});
+});
  

@@ -57,9 +57,16 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
 }
 
 //-------------------------------------------------
-//MAKE ECH TRANSACTION-----------------------------
+//MAKE ACH TRANSACTION-----------------------------
 //-------------------------------------------------
-function makeEchPayment(){
+function makeACHPayment(){
+  
+}
+
+//-------------------------------------------------
+//MAKE CHECK TRANSACTION--------------------------
+//-------------------------------------------------
+function makeCheckPayment(){
   
 }
 
