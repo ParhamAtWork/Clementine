@@ -97,16 +97,15 @@ export default function PaymentHistory() {
 
 	return (
 		<>
-			<header className='absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10' />
 
 			<main>
 				<div className='space-y-16 py-16 xl:space-y-20'>
 					{/* Recent activity table */}
 					<div>
 						<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-							<h2 className='mx-auto max-w-2xl text-base font-semibold leading-6 text-gray-900 lg:mx-0 lg:max-w-none'>
-								Recent activity
-							</h2>
+						<h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
+						Payment History
+					</h1>
 						</div>
 						<div className='mt-6 overflow-hidden border-t border-gray-100'>
 							<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -177,7 +176,7 @@ export default function PaymentHistory() {
 																<div className='flex justify-end'>
 																	<a
 																		href={transaction.href}
-																		className='text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500'
+																		className='text-sm font-medium leading-6 text-orange hover:text-orange'
 																	>
 																		View
 																		<span className='hidden sm:inline'>
