@@ -48,8 +48,8 @@ export default function Example() {
 							as='div'
 							className='relative ml-3'
 						>
-				<div class="fixed top-7 right-14">
-					<Menu.Button className='relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
+				<div class="z-0 fixed top-7 right-14">
+					<Menu.Button className='z-0 relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
 						<span className='absolute -inset-1.5 lg:hidden' />
 						{/* <img
 							className='h-8 w-8 rounded-full'
