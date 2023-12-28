@@ -68,7 +68,7 @@ var computedHmac = b64encode(computedHash.toString());
 const headers = {
     'Content-Type': 'application/json',
     'Client-Request-Id': ClientRequestId, 
-    'Api-Key': key,  // Include your actual API key here
+    'Api-Key': apiKey,
     'Timestamp': time,
     'Auth-Token-Type': 'HMAC',
     'Authorization': computedHmac
