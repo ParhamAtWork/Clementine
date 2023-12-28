@@ -52,7 +52,7 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
       };
 
     axios.post(BASE_URL, requestBody, { headers })
-    .then(response => console.log(response.data.paymentReceipt.processorResponseDetails.additionalInfo))
+    .then(response => console.log(response.data))
     .catch(error => console.error("Error making payment: ", error.response.data));
 }
 
