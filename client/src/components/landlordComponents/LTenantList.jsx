@@ -116,7 +116,7 @@ export default function Example() {
 					</div>
 				</div>
 			</div>
-			<LPopoverTenant />
+			{showPopover && <LPopoverTenant />}
 		</>
 	);
 }

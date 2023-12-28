@@ -443,3 +443,27 @@ app.delete('/PaymentHistory/:id', (req, res) => {
 		}
 	});
 });
+
+// Auth0 api token user
+app.post('/get-management-token', async (req, res) => {
+	const options = {
+		method: 'POST',
+		url: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/oauth/token',
+		headers: { 'content-type': 'application/json' },
+		data: {
+			client_id: 'pERLNKBQu6My2BO1JjwLjt01598HRECR',
+			client_secret:
+				'SDJWwk2NQ3hy_qdxXIfoHESjo37GevULaq-K0IOgW0fYUsS3Ka17wleBd9sjHOUE',
+			audience: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/api/v2/',
+			grant_type: 'client_credentials',
+		},
+	};
+
+	try {
+		const response = await axios(options);
+		res.send(response.data.access_token);
+	} catch (error) {
+		console.log('Error obtaining Management API Token:', error);
+		res.status(500).send('Failed to obtain token');
+	}
+});
