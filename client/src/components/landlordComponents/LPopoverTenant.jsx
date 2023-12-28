@@ -55,6 +55,7 @@ export default function Example() {
 			},
 			data: {
 				// Include other necessary user fields like email, password, connection, etc.
+				nickname: 'chickennugget',
 				email: formData.tenantEmail,
 				password: 'Chicken_nugget12!', // Set a secure password
 				connection: 'Username-Password-Authentication', // Update with your connection

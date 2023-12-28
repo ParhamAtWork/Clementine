@@ -467,3 +467,27 @@ app.post('/get-management-token', async (req, res) => {
 		res.status(500).send('Failed to obtain token');
 	}
 });
+
+app.get('/get-roles', async (req, res) => {
+	let config = {
+		method: 'get',
+		maxBodyLength: Infinity,
+		url: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/api/v2/roles/rol_q3kxgXHvsT0KfWXv/users',
+		headers: {
+			Accept: 'application/json',
+		},
+  };
+  
+  const response = await axios(config);
+  res.send(response);
+  console.log(response)
+
+	// axios
+	// 	.request(config)
+	// 	.then((response) => {
+	// 		console.log(JSON.stringify(response.data));
+	// 	})
+	// 	.catch((error) => {
+	// 		console.log(error);
+	// 	});
+});
