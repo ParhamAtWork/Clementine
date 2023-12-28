@@ -3,13 +3,6 @@ import { useState } from 'react';
 import { makePayment } from '../../../../server/services/fiserv-api.js';
 import axios from 'axios';
 
-const paymentData = {
-    price: "4005550000000029",
-    cardNum: 123123.00,
-    cardExpMonth: "01",
-    cardExpYear: "2035",
-  };
-
 
 
 
@@ -31,40 +24,35 @@ export default function PayRent()
 	const [postalCode, setPostalCode] = useState('');
 	const [paymentAmount, setPaymentAmount] = useState('');
 
+	const numericPaymentAmount = parseFloat(paymentAmount)
+
 	const handleInputChange = (event, setStateFunction) => {
 		setStateFunction(event.target.value);
 	  };
 
-	  const handlePayButtonClick = async () => {
-		try {
-		  const response = await fetch('http://localhost:8000/charges', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			  // Add any other headers if needed
-			},
-			// Include the data you want to send in the body
-			body: JSON.stringify({
-			  // Your request payload goes here
-			}),
-		  });
-	
-		  const result = await response.json();
-		  setResponseData(result);
-		} catch (error) {
-		  console.error('Error making POST request:', error);
-		}
-	  };
+	// const paymentData = {
+	// 	cardNum: "4005550000000029",
+	// 	price: 123123.00,
+	// 	cardExpMonth: "01",
+	// 	cardExpYear: "2035",
+	// };
 
+	const paymentData = {
+		cardNum: cardNumber,
+		price: numericPaymentAmount,
+		cardExpMonth: "01",
+		cardExpYear: "2035",
+	};
+
+	const handlePayButtonClick =  () => {	
 	axios
        .post("http://localhost:8000/charges", paymentData)
        .then((response) => {
-	 	makePayment(price, cardNum, cardExpMonth, cardExpYear);;
+		console.log(response.data);
        })
        .catch((error) => {
-         console.error("There was an error!", error);
+         console.error("There was an error this is my error!", error);
        });
-	 console.log(paymentAmount)
 	};
 
 

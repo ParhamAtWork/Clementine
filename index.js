@@ -5,7 +5,6 @@ import { auth } from 'express-oauth2-jwt-bearer';
 import axios from 'axios';
 import cors from 'cors';
 import CryptoJS from 'crypto-js';
-import { makePayment } from './server/services/fiserv-api';
 
 const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
 const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
@@ -26,6 +25,8 @@ const jwtCheck = auth({
 
 // enforces on all endpoints
 // app.use(jwtCheck);
+
+
 
 
 
@@ -80,6 +81,68 @@ const con = createConnection({
 //   });
 
 // });
+app.use(express.json());
+
+
+app.post('/charges', (req, res) => {
+	try {
+	  const BASE_URL = 'https://cert.api.fiservapps.com/ch/payments/v1/charges';
+  
+	  const { price, cardNum, cardExpMonth, cardExpYear } = req.body;
+  
+	  const request = {
+		"amount": {
+		  "total": price,
+		  "currency": "USD"
+		},
+		"source": {
+		  "sourceType": "PaymentCard",
+		  "card": {
+			"cardData": cardNum,
+			"expirationMonth": cardExpMonth,
+			"expirationYear": cardExpYear
+		  }
+		},
+		"transactionDetails": {
+		  "captureFlag": true
+		},
+		"merchantDetails": {
+		  "merchantId": "100008000003683",
+		  "terminalId": "10000001"
+		}
+	  };
+  
+	  const requestBody = JSON.stringify(request);
+	  const ClientRequestId = Math.floor((Math.random() * 10000000) + 1);
+	  const time = new Date().getTime();
+	  const rawSignature = key + ClientRequestId + time + requestBody;
+  
+	  let computedHash = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secret.toString());
+	  computedHash.update(rawSignature);
+	  computedHash = computedHash.finalize();
+	  const computedHmac = b64encode(computedHash.toString());
+  
+	  const headers = {
+		'Content-Type': 'application/json',
+		'Client-Request-Id': ClientRequestId,
+		'Api-Key': key,
+		'Timestamp': time,
+		'Auth-Token-Type': 'HMAC',
+		'Authorization': computedHmac
+	  };
+  
+	  axios.post(BASE_URL, requestBody, { headers })
+		.then(response => res.json(response.data))
+		.catch(error => {
+		  console.error("Error making payment: ", error.response.data);
+		  res.status(500).json({ error: 'Error making payment' });
+		});
+	} catch (error) {
+	  console.error("Error making payment: ", error);
+	  res.status(500).json({ error: 'Error making payment' });
+	}
+  });
+
 
 app.use(function (err, req, res, next) {
 	console.error(err.stack);
@@ -483,14 +546,4 @@ function b64encode (input) {
     return output;
   }
 
-  app.post('/charges', (req, res) => {
-	// Extract relevant parameters from the request, such as query parameters
-	const { price, cardNum, cardExpMonth, cardExpYear } = req.body;
   
-	// Call the makePayment function with the extracted parameters
-	makePayment(price, cardNum, cardExpMonth, cardExpYear);
-  
-	// Respond to the client
-	res.send('Payment request initiated');
-  });
-
