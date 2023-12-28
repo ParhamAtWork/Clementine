@@ -192,7 +192,7 @@ export default function PayRent()
 										htmlFor='expiration-date'
 										className='block text-sm font-medium text-gray-700'
 									>
-										Expiration date (MM/YY)
+										Expiration date (MM/YYYY)
 									</label>
 									<div className='mt-1'>
 										<input
@@ -300,7 +300,7 @@ export default function PayRent()
 											id='postal-code'
 											name='postal-code'
 											value={postalCode}
-											onClick={(e) => handleInputChange(e, setPostalCode)}
+											onChange={(e) => handleInputChange(e, setPostalCode)}
 											autoComplete='postal-code'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
