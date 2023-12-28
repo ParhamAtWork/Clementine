@@ -10,7 +10,7 @@ export default function PayRent() {
 	return (
 		<>
 		<h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>Pay Rent</h1>
-			<main className='bg-[#FFE5CC] lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden'>
+			<main className='bg-[#e1e1e1] lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden'>
 				<h1 className='sr-only'>Checkout</h1>
 
 				{/* Order summary */}

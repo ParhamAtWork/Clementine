@@ -104,7 +104,7 @@ export default function Example() {
 
 				{/* Static sidebar for desktop */}
 				{/* TODO sidebar color */}
-				<div className='bg-[#FFE5CC] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white lg:w-72'>
+				<div className='bg-[#e1e1e1] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white lg:w-72'>
 					{/* Sidebar component, swap this element with another sidebar if you like */}
 					
 					<div className='flex grow flex-col gap-y-5 border-r border-gray-200 bg-white'>
@@ -144,9 +144,9 @@ export default function Example() {
 													onClick={() => handleNavigationClick(item.name)}
 													className={classNames(
 														item.current
-															? 'bg-[#ffe5cc] text-indigo-600'
-															: 'bg-[#ffe5cc] text-gray-700',
-														'hover:text-[#52b386ff]', // Apply hover style to all items
+															? 'bg-[#e1e1e1] text-indigo-600'
+															: 'bg-[#e1e1e1] text-gray-700',
+														'hover:text-[#fa9a00]', // Apply hover style to all items
 														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold px-6 my-4'
 													)}
 												>

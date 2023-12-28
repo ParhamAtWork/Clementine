@@ -105,7 +105,7 @@ export default function Example() {
 				</Transition.Root>
 
 				{/* Static sidebar for desktop */}
-				<div className='bg-[#FFE5CC] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
+				<div className='bg-[#e1e1e1] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
 					{/* Sidebar component, swap this element with another sidebar if you like */}
 					<div className='flex grow flex-col gap-y-5 border-r border-gray-200 bg-white'>
 						<div className='flex h-16 shrink-0 items-center px-3'>
@@ -146,9 +146,9 @@ export default function Example() {
 													onClick={() => handleNavigationClick(item.name)}
 													className={classNames(
 														item.current
-															? 'bg-[#FFE5CC] text-indigo-600'
-															: 'bg-[#FFE5CC] text-gray-700',
-														'hover:text-[#00ad6b]', // Apply hover style to all items
+															? 'bg-[#e1e1e1] text-indigo-600'
+															: 'bg-[#e1e1e1] text-gray-700',
+														'hover:text-[#fa9a00]', // Apply hover style to all items
 														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold px-6 my-4'
 													)}
 												>
@@ -204,7 +204,7 @@ export default function Example() {
 					</a>
 				</div>
 
-				<main className='bg-[#ffe5cc] lg:pl-72'>
+				<main className='bg-[#e1e1e1] lg:pl-72'>
 					<div className='px-4 py-10 sm:px-6 lg:px-8 lg:py-6'>
 						{activeComponent === 'Payment Dashboard' && <PaymentDashboard />}
 						{activeComponent === 'Tenants' && <ContactTenant />}
