@@ -1,4 +1,4 @@
-
+ 
 import express from 'express';
 import { createConnection } from 'mysql';
 import fs from 'fs';
@@ -332,5 +332,8 @@ app.delete('/PaymentHistory/:id', (req, res) => {
   });
 });
 
-app.post
+// app.get('/secret', async (req, res) => {
+//   const intent = // ... Fetch or create the PaymentIntent
+//   res.json({client_secret: intent.client_secret});
+// });
  
