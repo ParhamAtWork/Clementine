@@ -1,5 +1,8 @@
-var CryptoJS = require('crypto-js');
-const axios = require('axios');
+import CryptoJS from 'crypto-js';
+import axios from 'axios';
+
+
+
 
 const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
 const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
@@ -7,7 +10,7 @@ const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
 //-------------------------------------------------
 //MAKE CREDIT CARD TRANSACTION---------------------
 //-------------------------------------------------
-function makePayment(price, cardNum, cardExpMonth, cardExpYear){
+export function makePayment(price, cardNum, cardExpMonth, cardExpYear){
     const BASE_URL = 'https://cert.api.fiservapps.com/ch/payments/v1/charges';
     const request = {
       "amount":{
@@ -58,28 +61,28 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
 //-------------------------------------------------
 //MAKE ACH TRANSACTION-----------------------------
 //-------------------------------------------------
-function makeACHPayment(){
+export function makeACHPayment(){
 
 }
 
 //-------------------------------------------------
 //MAKE CHECK TRANSACTION--------------------------
 //-------------------------------------------------
-function makeCheckPayment(){
+export function makeCheckPayment(){
 
 }
 
 //-------------------------------------------------
 //MAKE APPLE PAY TRANSACTION-----------------------
 //-------------------------------------------------
-function makeApplePayment (){
+export function makeApplePayment (){
 
 }
 
 //-------------------------------------------------
 //GET PAYMENT INFORMATION--------------------------
 //-------------------------------------------------
-function getPayment(transactionId){
+export function getPayment(transactionId){
     const BASE_URL = 'https://cert.api.fiservapps.com/ch//payments/v1/transaction-inquiry';
 
     const request = {

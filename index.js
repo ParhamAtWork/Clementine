@@ -4,6 +4,13 @@ import fs from 'fs';
 import { auth } from 'express-oauth2-jwt-bearer';
 import axios from 'axios';
 import cors from 'cors';
+import CryptoJS from 'crypto-js';
+import { makePayment } from './server/services/fiserv-api';
+
+const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
+const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
+
+
 
 const sql = fs.readFileSync('./data.sql').toString();
 const app = express();
@@ -19,6 +26,10 @@ const jwtCheck = auth({
 
 // enforces on all endpoints
 // app.use(jwtCheck);
+
+
+
+
 
 // test endpoint for auth0
 app.get('/authorized', jwtCheck, function (req, res) {
@@ -443,3 +454,43 @@ app.delete('/PaymentHistory/:id', (req, res) => {
 		}
 	});
 });
+
+
+function b64encode (input) {
+    var swaps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",  "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/"],
+    tb, ib = "",
+    output = "",
+    i, L;
+    for (i=0, L = input.length; i < L; i++) {
+        tb = input.charCodeAt(i).toString(2);
+        while (tb.length < 8) {
+            tb = "0"+tb;
+            }
+        ib = ib + tb;
+        while (ib.length >= 6) {
+            output = output + swaps[parseInt(ib.substring(0,6),2)];
+            ib = ib.substring(6);
+            }
+    }
+    if (ib.length == 4) {
+        tb = ib + "00";
+        output += swaps[parseInt(tb,2)] + "=";
+    }
+    if (ib.length == 2) {
+        tb = ib + "0000";
+        output += swaps[parseInt(tb,2)] + "==";
+    }
+    return output;
+  }
+
+  app.post('/charges', (req, res) => {
+	// Extract relevant parameters from the request, such as query parameters
+	const { price, cardNum, cardExpMonth, cardExpYear } = req.body;
+  
+	// Call the makePayment function with the extracted parameters
+	makePayment(price, cardNum, cardExpMonth, cardExpYear);
+  
+	// Respond to the client
+	res.send('Payment request initiated');
+  });
+

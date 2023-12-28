@@ -1,13 +1,76 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
+import { useState } from 'react';
+import { makePayment } from '../../../../server/services/fiserv-api.js';
+import axios from 'axios';
 
-const subtotal = '$108.00';
-const discount = { code: 'CHEAPSKATE', amount: '$16.00' };
-const taxes = '$9.92';
-const shipping = '$8.00';
-const total = '$' + '141.92';
+const paymentData = {
+    price: "4005550000000029",
+    cardNum: 123123.00,
+    cardExpMonth: "01",
+    cardExpYear: "2035",
+  };
 
-export default function PayRent() {
+
+
+
+// const subtotal = '$108.00';
+// const discount = { code: 'CHEAPSKATE', amount: '$16.00' };
+// const taxes = '$9.92';
+// const shipping = '$8.00';
+// const total = '$' + '141.92';
+export default function PayRent()
+{
+	const [email, setEmail] = useState('');
+	const [nameOnCard, setNameOnCard] = useState('');
+	const [cardNumber, setCardNumber] = useState('');
+	const [expDate, setExpDate] = useState('');
+	const [cvc, setCVC] = useState('');
+	const [address, setAddress] = useState('');
+	const [city, setCity] = useState('');
+	const [state, setState] = useState('');
+	const [postalCode, setPostalCode] = useState('');
+	const [paymentAmount, setPaymentAmount] = useState('');
+
+	const handleInputChange = (event, setStateFunction) => {
+		setStateFunction(event.target.value);
+	  };
+
+	  const handlePayButtonClick = async () => {
+		try {
+		  const response = await fetch('http://localhost:8000/charges', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			  // Add any other headers if needed
+			},
+			// Include the data you want to send in the body
+			body: JSON.stringify({
+			  // Your request payload goes here
+			}),
+		  });
+	
+		  const result = await response.json();
+		  setResponseData(result);
+		} catch (error) {
+		  console.error('Error making POST request:', error);
+		}
+	  };
+
+	axios
+       .post("http://localhost:8000/charges", paymentData)
+       .then((response) => {
+	 	makePayment(price, cardNum, cardExpMonth, cardExpYear);;
+       })
+       .catch((error) => {
+         console.error("There was an error!", error);
+       });
+	 console.log(paymentAmount)
+	};
+
+
+		
 	return (
+		
 		<>
 		<h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>Pay Rent</h1>
 			<main className='bg-[#e1e1e1] lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden'>
@@ -18,12 +81,7 @@ export default function PayRent() {
 					aria-labelledby='summary-heading'
 					className='hidden w-full max-w-md flex-col bg-gray-50 lg:flex my-40'
 				>
-					<h2
-						id='summary-heading'
-						className='not-sr-only'
-					>
-						Order summary
-					</h2>
+
 
 					<div className='bottom-0 flex-none border-t border-gray-200 bg-gray-50 p-6'>
 						<form>
@@ -31,55 +89,35 @@ export default function PayRent() {
 								htmlFor='discount-code'
 								className='block text-sm font-medium text-gray-700'
 							>
-								Discount code
+								Payment Amount
 							</label>
 							<div className='mt-1 flex space-x-4'>
 								<input
 									type='text'
-									id='discount-code'
-									name='discount-code'
+									id='payment-amount'
+									name='payment-amount'
+									value={paymentAmount}
+									onChange={(e) => handleInputChange(e, setPaymentAmount)}
 									className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 								/>
-								<button
-									type='submit'
-									className='rounded-md bg-gray-200 px-4 text-sm font-medium text-gray-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
-								>
-									Apply
-								</button>
+
 							</div>
 						</form>
 
 						<dl className='mt-10 space-y-6 text-sm font-medium text-gray-500'>
-							<div className='flex justify-between'>
-								<dt>Subtotal</dt>
-								<dd className='text-gray-900'>{subtotal}</dd>
-							</div>
-							<div className='flex justify-between'>
-								<dt className='flex'>
-									Discount
-									<span className='ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-xs tracking-wide text-gray-600'>
-										{discount.code}
-									</span>
-								</dt>
-								<dd className='text-gray-900'>-{discount.amount}</dd>
-							</div>
-							<div className='flex justify-between'>
-								<dt>Taxes</dt>
-								<dd className='text-gray-900'>{taxes}</dd>
-							</div>
-							<div className='flex justify-between'>
-								<dt>Shipping</dt>
-								<dd className='text-gray-900'>{shipping}</dd>
-							</div>
+
 							<div className='flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900'>
-								<dt>Total</dt>
-								<dd className='text-base'>{total}</dd>
+
 							</div>
 							<button
 								type='submit'
+								onClick={handlePayButtonClick}
 								className='mt-6 w-full rounded-md border border-transparent bg-[#52b386ff] px-4 py-2 text-md font-medium text-[#fff] shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
 							>
-								Pay <span style={{ marginLeft: '0.2rem' }}>{total}</span>
+							{paymentAmount && !isNaN(paymentAmount) && !isNaN(parseFloat(paymentAmount))
+								? `Pay $${parseFloat(paymentAmount).toLocaleString()}`
+								: `Pay`}   
+							<span style={{ marginLeft: '0.2rem' }}></span>
 							</button>
 						</dl>
 					</div>
@@ -108,13 +146,15 @@ export default function PayRent() {
 										htmlFor='email-address'
 										className='block text-sm font-medium text-gray-700'
 									>
-										Email address (So we can spam you)
+										Email Address
 									</label>
 									<div className='mt-1'>
 										<input
 											type='email'
 											id='email-address'
 											name='email-address'
+											value={email}
+											onChange={(e) => handleInputChange(e, setEmail)}
 											autoComplete='email'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -151,6 +191,8 @@ export default function PayRent() {
 											type='text'
 											id='card-number'
 											name='card-number'
+											value={cardNumber}
+											onChange={(e) => handleInputChange(e, setCardNumber)}
 											autoComplete='cc-number'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -168,6 +210,8 @@ export default function PayRent() {
 										<input
 											type='text'
 											name='expiration-date'
+											value={expDate}
+											onChange={(e) => handleInputChange(e, setExpDate)}
 											id='expiration-date'
 											autoComplete='cc-exp'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
@@ -187,6 +231,8 @@ export default function PayRent() {
 											type='text'
 											name='cvc'
 											id='cvc'
+											value={cvc}
+											onChange={(e) => handleInputChange(e, setCVC)}
 											autoComplete='csc'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -205,6 +251,8 @@ export default function PayRent() {
 											type='text'
 											id='address'
 											name='address'
+											value={address}
+											onChange={(e) => handleInputChange(e, setAddress)}
 											autoComplete='street-address'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -223,6 +271,8 @@ export default function PayRent() {
 											type='text'
 											id='city'
 											name='city'
+											value={city}
+											onChange={(e) => handleInputChange(e, setCity)}
 											autoComplete='address-level2'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -239,8 +289,10 @@ export default function PayRent() {
 									<div className='mt-1'>
 										<input
 											type='text'
-											id='region'
-											name='region'
+											id='state'
+											name='state'
+											value={state}
+											onChange={(e) => handleInputChange(e, setState)}
 											autoComplete='address-level1'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -259,6 +311,8 @@ export default function PayRent() {
 											type='text'
 											id='postal-code'
 											name='postal-code'
+											value={postalCode}
+											onClick={(e) => handleInputChange(e, setPostalCode)}
 											autoComplete='postal-code'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
 										/>
@@ -325,4 +379,7 @@ export default function PayRent() {
 			</main>
 		</>
 	);
-}
+
+	
+	
+};
