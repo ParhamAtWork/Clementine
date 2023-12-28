@@ -4,7 +4,6 @@ const axios = require('axios');
 const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
 const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
 
-
 //-------------------------------------------------
 //MAKE CREDIT CARD TRANSACTION---------------------
 //-------------------------------------------------
@@ -17,7 +16,7 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
       },
       "source":{
         "sourceType":"PaymentCard",
-
+ 
         "card":{
           "cardData":cardNum,
           "expirationMonth":cardExpMonth,
@@ -32,7 +31,7 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
         "terminalId":"10000001"
       }
     };
-
+ 
     var requestBody = JSON.stringify(request)
     var ClientRequestId = Math.floor((Math.random() * 10000000) + 1);
     var time = new Date().getTime();
@@ -41,59 +40,57 @@ function makePayment(price, cardNum, cardExpMonth, cardExpYear){
     computedHash.update(rawSignature);
     computedHash = computedHash.finalize();
     var computedHmac = b64encode(computedHash.toString());
-
+ 
     const headers = {
       'Content-Type': 'application/json',
-      'Client-Request-Id': ClientRequestId, 
+      'Client-Request-Id': ClientRequestId,
       'Api-Key': key,  // Include your actual API key here
       'Timestamp': time,
       'Auth-Token-Type': 'HMAC',
       'Authorization': computedHmac
       };
-
+ 
     axios.post(BASE_URL, requestBody, { headers })
     .then(response => console.log(response.data))
     .catch(error => console.error("Error making payment: ", error.response.data));
 }
-
+ 
 //-------------------------------------------------
 //MAKE ACH TRANSACTION-----------------------------
 //-------------------------------------------------
 function makeACHPayment(){
-  
+ 
 }
-
+ 
 //-------------------------------------------------
 //MAKE CHECK TRANSACTION--------------------------
 //-------------------------------------------------
 function makeCheckPayment(){
-  
+ 
 }
-
-
+ 
 //-------------------------------------------------
 //MAKE APPLE PAY TRANSACTION-----------------------
 //-------------------------------------------------
 function makeApplePayment (){
-
+ 
 }
-
-
+ 
 //-------------------------------------------------
 //GET PAYMENT INFORMATION--------------------------
 //-------------------------------------------------
 function getPayment(transactionId){
     const BASE_URL = 'https://cert.api.fiservapps.com/ch//payments/v1/transaction-inquiry';
-    
+   
     const request = {
       "referenceTransactionDetails" : {
         "referenceTransactionId" : transactionId
-      }, 
+      },
       "merchantDetails" : {
         "merchantId" : "100008000003683"
       }
     }
-    
+   
     var requestBody = JSON.stringify(request)
     var ClientRequestId = Math.floor((Math.random() * 10000000) + 1);
     var time = new Date().getTime();
@@ -102,22 +99,21 @@ function getPayment(transactionId){
     computedHash.update(rawSignature);
     computedHash = computedHash.finalize();
     var computedHmac = b64encode(computedHash.toString());
-
+ 
     const headers = {
       'Content-Type': 'application/json',
-      'Client-Request-Id': ClientRequestId, 
+      'Client-Request-Id': ClientRequestId,
       'Api-Key': key,  // Include your actual API key here
       'Timestamp': time,
       'Auth-Token-Type': 'HMAC',
       'Authorization': computedHmac
       };
-    
+   
     axios.post(BASE_URL, requestBody, { headers })
       .then(response => console.log(response.data[0]))
       .catch(error => console.error("Error making payment: ", error.response.data));
 }
-
-
+ 
 function b64encode (input) {
     var swaps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",  "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/"],
     tb, ib = "",
@@ -143,9 +139,9 @@ function b64encode (input) {
         output += swaps[parseInt(tb,2)] + "==";
     }
     return output;
-}
+  }
 
-
+ 
 //Mock Data - makePayment
 const cardNum = "4005550000000029"
 const price = 123123.00
