@@ -142,12 +142,14 @@ app.post('/charges', (req, res) => {
 	  axios.post(BASE_URL, requestBody, { headers })
 		.then(response => res.json(response.data))
 		.catch(error => {
-		  console.error("Error making payment: ", error.response.data);
+		  console.error("Error making paymentHERE: ", error.response.data);
 		  res.status(500).json({ error: 'Error making payment' });
 		});
-	} catch (error) {
-	  console.error("Error making payment: ", error);
-	  res.status(500).json({ error: 'Error making payment' });
+
+
+		} catch (error) {
+		console.error("Error making payment: ", error);
+		res.status(500).json({ error: 'Error making payment' });
 	}
   });
 
@@ -583,12 +585,13 @@ app.post('/get-management-token', async (req, res) => {
 });
 
 app.post('/Receipts', (req, res) => {
-	const { paymentAmount, address, nameOnCard, paymentDate } = req.body;
+	const { paymentAmount, address, city, state, postalCode, nameOnCard, paymentDate } = req.body;
+	const fullAddress = `${address}, ${city}, ${state} ${postalCode}`;
 	const query =
 		'INSERT INTO Receipts (PaymentAmount, Address, Name, PaymentDate) VALUES (?, ?, ?, ?)';
 	con.query(
 		query,
-		[paymentAmount, address, nameOnCard, paymentDate],
+		[paymentAmount, fullAddress, nameOnCard, paymentDate],
 		function (err) {
 			if (!err) {
 				res.send('Payment created successfully.');

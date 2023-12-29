@@ -92,13 +92,16 @@ export default function PaymentHistory() {
 						  {receipt.PaymentID}
 						</td>
 						<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-						  {receipt.Name}
+						  {receipt.Name.toUpperCase()}
 						</td>
 						<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0">
 						  {receipt.Address}
 						</td>
 						<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0">
-						  {receipt.PaymentAmount}
+							{new Intl.NumberFormat('en-US', {
+								style: 'currency',
+								currency: 'USD',
+								}).format(receipt.PaymentAmount)}
 						</td>
 						<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0">
 						  {receipt.PaymentDate}

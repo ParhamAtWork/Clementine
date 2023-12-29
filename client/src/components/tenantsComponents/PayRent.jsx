@@ -92,8 +92,33 @@ export default function PayRent()
 		window.alert("Both POSTS Successful!");
 	   })
        .catch((error) => {
-         console.error("There was an error this is my error!", error);
-       });
+		if (error.response) {  // LEFT OFF HERE!!!
+			// The request was made and the server responded with a status code
+			// that falls out of the range of 2xx
+			console.error("Server responded with an error status:", error.response.status);
+			console.error("Error data:", error.response.data);
+			console.log("MINE", error.response.data.error[0]);
+	
+			if (error.response.data && error.response.data.error && Array.isArray(error.response.data.error)) {
+			  const apiError = error.response.data.error[0];
+	
+			  // Check the error type and code
+			  if (apiError.type === 'GATEWAY' && apiError.code === '104') {
+				console.error("Gateway error: Unable to assign card to brand (Invalid)");
+				// Handle the specific error case here
+			  } else {
+				// Handle other error cases
+				console.error("Unhandled API error:", apiError.message);
+			  }
+			}
+		  } else if (error.request) {
+			// The request was made but no response was received
+			console.error("No response received from the server");
+		  } else {
+			// Something happened in setting up the request that triggered an Error
+			console.error("Error setting up the request:", error.message);
+		  }
+		});
 	};
 
 
@@ -131,8 +156,11 @@ export default function PayRent()
 								/>
 							</div>
 							<p className='mt-3 text-m font-medium text-gray-700'>
-								Payment Total: {paymentAmount} {/* Hardcoded total payment */}
-							</p>
+								Payment Total: {new Intl.NumberFormat('en-US', {
+								style: 'currency',
+								currency: 'USD',
+								}).format(paymentAmount)}
+								</p>
 						</form>
 
 						<dl className='mt-4 space-y-2 text-sm font-medium text-gray-500'>
