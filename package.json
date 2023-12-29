@@ -10,10 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+
+    "autoprefixer": "^10.4.16",
+
+
     "axios": "^1.6.3",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
+    "crypto-js": "^4.2.0",
+    "cryptojs": "^2.5.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-oauth2-jwt-bearer": "^1.6.0",
@@ -21,6 +27,12 @@
     "mysql": "^2.18.1",
     "mysql-import": "^5.0.26",
     "prop-types": "^15.8.1",
+
+    "react-router-dom": "^6.21.1",
+    "require": "^2.4.20",
+    "tailwindcss": "^3.4.0"
+
     "react-icons": "^4.12.0"
+
   }
 }

@@ -1,11 +1,12 @@
 import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
 	Bars3Icon,
 	CreditCardIcon,
 	DocumentDuplicateIcon,
 	HomeIcon,
 	UsersIcon,
+	ChevronDownIcon
 } from '@heroicons/react/24/outline';
 import clementineLogo from '../../assets/clementinesv.svg';
 import PayRent from '../../components/tenantsComponents/PayRent';
@@ -40,6 +41,55 @@ export default function Example() {
 
 	return (
 		<>
+			
+			{ <Menu
+							as='div'
+							className='relative ml-3'
+						>
+				<div class="z-0 fixed top-7 right-14">
+					<Menu.Button className='z-0 relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
+						<span className='absolute -inset-1.5 lg:hidden' />
+						<img
+							className='h-8 w-8 rounded-full'
+							src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+							alt=''
+						/>
+						<span className='ml-3 hidden text-sm font-medium text-[#000] lg:block'>
+							<span className='sr-only'>Open user menu for </span>
+							Username
+						</span>
+						<ChevronDownIcon
+							className='ml-1 hidden h-5 w-5 flex-shrink-0 text-[#000] lg:block'
+							aria-hidden='true'
+						/>
+					</Menu.Button>
+				</div>
+				<Transition
+								as={Fragment}
+								enter='transition ease-out duration-100'
+								enterFrom='transform opacity-0 scale-95'
+								enterTo='transform opacity-100 scale-100'
+								leave='transition ease-in duration-75'
+								leaveFrom='transform opacity-100 scale-100'
+								leaveTo='transform opacity-0 scale-95'
+							>
+								<Menu.Items className='fixed top-20 right-14 origin-top-right rounded-md bg-stone py-1 shadow-lg ring-1 ring-[#000] ring-opacity-5 focus:outline-none'>
+									<Menu.Item>
+										{({ active }) => (
+											<a
+												href='#'
+												className={classNames(
+													active ? 'bg-gray-100' : '',
+													'block px-4 py-2 text-sm text-[#000] hover:text-orange'
+												)}
+											>
+												Logout
+											</a>
+										)}
+									</Menu.Item>
+								</Menu.Items>
+							</Transition>
+						</Menu> }
 			<div className=''>
 				<Transition.Root
 					show={sidebarOpen}
@@ -53,26 +103,31 @@ export default function Example() {
 				</Transition.Root>
 
 				{/* Static sidebar for desktop */}
-				<div className='bg-custom-theme fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
+				{/* TODO sidebar color */}
+				<div className='bg-[#e1e1e1] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white lg:w-72'>
 					{/* Sidebar component, swap this element with another sidebar if you like */}
-					<div className='flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6'>
-						<div className='flex h-16 shrink-0 items-center'>
+					
+					<div className='flex grow flex-col gap-y-5 border-r border-gray-200 bg-white'>
+					<div className='flex h-16 shrink-0 items-center px-3'>
 							<img
-								className='h-8 w-auto'
+								className='h-10 w-auto'
 								src={clementineLogo}
 								alt='Your Company'
 							/>
 							<span
 								aria-hidden='true'
 								style={{
-									marginLeft: '0.6rem',
-									marginTop: '0.1rem',
+									marginLeft: '.8rem',
+									marginTop: '0.3rem',
 								}}
-								className='text-orange text-2xl font-medium'
+								className='text-orange text-3xl font-bold'
 							>
 								Clementine
 							</span>
 						</div>
+						
+						<div className='border-t border-gray-200 w-full my-[-1rem]'></div>
+
 						<nav className='flex flex-1 flex-col'>
 							<ul
 								role='list'
@@ -89,10 +144,10 @@ export default function Example() {
 													onClick={() => handleNavigationClick(item.name)}
 													className={classNames(
 														item.current
-															? 'bg-[#fffcf9] text-indigo-600'
-															: 'bg-[#fffcf9] text-gray-700',
-														'hover:text-[#52b386ff]', // Apply hover style to all items
-														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+															? 'bg-[#e1e1e1] text-indigo-600'
+															: 'bg-[#e1e1e1] text-gray-700',
+														'hover:text-[#fa9a00]', // Apply hover style to all items
+														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold px-6 my-4'
 													)}
 												>
 													<item.icon
@@ -122,7 +177,7 @@ export default function Example() {
 					</div>
 				</div>
 
-				<div className='sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden'>
+				<div className='border-b border-gray-200 sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden'>
 					<button
 						type='button'
 						className='-m-2.5 p-2.5 text-gray-700 lg:hidden'
@@ -146,8 +201,9 @@ export default function Example() {
 						/>
 					</a>
 				</div>
+				
 
-				<main className='bg-stone lg:pl-72'>
+				<main className='lg:pl-72'>
 					<div className='px-4 py-10 sm:px-6 lg:px-8 lg:py-6'>
 						{activeComponent === 'Pay Rent' && <PayRent />}
 						{activeComponent === 'Contact Landlord' && <ContactLandlord />}

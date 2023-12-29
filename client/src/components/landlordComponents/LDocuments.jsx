@@ -1,80 +1,47 @@
 const transactions = [
 	{
-		id: 'AAPS0L',
-		company: 'Chase & Co.',
-		share: 'CAC',
-		commission: '+$4.37',
-		price: '$3,509.00',
-		quantity: '12.00',
-		netAmount: '$4,397.00',
+		id: '1',
+		tenantname: 'Garrett Boscoe',
+		address: '123 address road',
+		unit: '1',
+		amountpaid: '$3,509.00',
+		outstandingbalance: '$0',
+		paymentdate: '12/11/2023',
 	},
 	{
-		id: 'AAPS0L1',
-		company: 'Chase & Co.',
-		share: 'CAC',
-		commission: '+$4.37',
-		price: '$3,509.00',
-		quantity: '12.00',
-		netAmount: '$4,397.00',
+		id: '2',
+		tenantname: 'Garrett Boscoe',
+		address: '123 address road',
+		unit: '1',
+		amountpaid: '$3,509.00',
+		outstandingbalance: '$0',
+		paymentdate: '12/11/2023',
 	},
 	{
-		id: 'AAPS0L2',
-		company: 'Chase & Co.',
-		share: 'CAC',
-		commission: '+$4.37',
-		price: '$3,509.00',
-		quantity: '12.00',
-		netAmount: '$4,397.00',
-	},
-	{
-		id: 'AAPS0L3',
-		company: 'Chase & Co.',
-		share: 'CAC',
-		commission: '+$4.37',
-		price: '$3,509.00',
-		quantity: '12.00',
-		netAmount: '$4,397.00',
-	},
-	{
-		id: 'AAPS0L4',
-		company: 'Chase & Co.',
-		share: 'CAC',
-		commission: '+$4.37',
-		price: '$3,509.00',
-		quantity: '12.00',
-		netAmount: '$4,397.00',
-	},
-	{
-		id: 'AAPS0L5',
-		company: 'Chase & Co.',
-		share: 'CAC',
-		commission: '+$4.37',
-		price: '$3,509.00',
-		quantity: '12.00',
-		netAmount: '$4,397.00',
-	},
-	// More transactions...
+		id: '3',
+		tenantname: 'Garrett Boscoe',
+		address: '123 address road',
+		unit: '1',
+		amountpaid: '$3,509.00',
+		outstandingbalance: '$0',
+		paymentdate: '12/11/2023',
+	}
 ];
 
 export default function Example() {
 	return (
 		<div className='px-4 sm:px-6 lg:px-8'>
-			<div className='sm:flex sm:items-center'>
-				<div className='sm:flex-auto'>
-					<h1 className='text-base font-semibold leading-6 text-gray-900'>
-						Transactions
+			<div className='sm:flex flex justify-between'>
+				<div className='sm:flex'>
+					<h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
+						Documents
 					</h1>
-					<p className='mt-2 text-sm text-gray-700'>
-						A table of placeholder stock market data that does not make any
-						sense.
-					</p>
 				</div>
 				<div className='mt-4 sm:ml-16 sm:mt-0 sm:flex-none'>
 					<button
 						type='button'
-						className='block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-					>
-						Export
+						className=" rounded-md bg-[#52b386ff] text-stone px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						Add Document
 					</button>
 				</div>
 			</div>
@@ -94,37 +61,37 @@ export default function Example() {
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Company
+										Tenant Name
 									</th>
 									<th
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Share
+										Address
 									</th>
 									<th
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Commision
+										Unit
 									</th>
 									<th
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Price
+										Amount Paid
 									</th>
 									<th
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Quantity
+										Remaining Balance
 									</th>
 									<th
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Net amount
+										Payment Date
 									</th>
 									<th
 										scope='col'
@@ -137,31 +104,31 @@ export default function Example() {
 							<tbody className='divide-y divide-gray-200 bg-white'>
 								{transactions.map((transaction) => (
 									<tr key={transaction.id}>
-										<td className='whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0'>
+										<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0'>
 											{transaction.id}
 										</td>
-										<td className='whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900'>
-											{transaction.company}
+										<td className='whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900'>
+											{transaction.tenantname}
 										</td>
-										<td className='whitespace-nowrap px-2 py-2 text-sm text-gray-900'>
-											{transaction.share}
+										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-900'>
+											{transaction.address}
 										</td>
-										<td className='whitespace-nowrap px-2 py-2 text-sm text-gray-500'>
-											{transaction.commission}
+										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+											{transaction.unit}
 										</td>
-										<td className='whitespace-nowrap px-2 py-2 text-sm text-gray-500'>
-											{transaction.price}
+										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+											{transaction.amountpaid}
 										</td>
-										<td className='whitespace-nowrap px-2 py-2 text-sm text-gray-500'>
-											{transaction.quantity}
+										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+											{transaction.outstandingbalance}
 										</td>
-										<td className='whitespace-nowrap px-2 py-2 text-sm text-gray-500'>
-											{transaction.netAmount}
+										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+											{transaction.paymentdate}
 										</td>
-										<td className='relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0'>
+										<td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0'>
 											<a
 												href='#'
-												className='text-indigo-600 hover:text-indigo-900'
+												className='text-[#f98500] hover:text-[#f98500] underline'
 											>
 												Edit<span className='sr-only'>, {transaction.id}</span>
 											</a>

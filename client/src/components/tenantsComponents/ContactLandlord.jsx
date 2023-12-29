@@ -11,8 +11,7 @@ export default function Example() {
 
 	return (
 		<>
-			<header className='absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10' />
-			<div className='isolate bg-stone px-6 sm:py-10 lg:px-8'>
+			<div className='isolate bg-[ffe5cc] px-6 sm:py-10 lg:px-8'>
 				<div
 					className='absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]'
 					aria-hidden='true'

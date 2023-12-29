@@ -1,17 +1,19 @@
 import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, Menu } from '@headlessui/react';
 import {
 	Bars3Icon,
 	CurrencyDollarIcon,
 	DocumentDuplicateIcon,
 	BuildingOffice2Icon,
 	UsersIcon,
+	ChevronDownIcon,
 } from '@heroicons/react/24/outline';
 import clementineLogo from '../../assets/clementinesv.svg';
 import ContactTenant from '../../components/landlordComponents/LTenantList';
 import PropertyOverview from '../../components/landlordComponents/LPropertyList';
 import PaymentDashboard from '../../components/landlordComponents/LPaymentDashboard';
 import Documents from '../../components/landlordComponents/LDocuments';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const navigation = [
 	{
@@ -32,6 +34,8 @@ function classNames(...classes) {
 export default function Example() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [activeComponent, setActiveComponent] = useState(null);
+	const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+  	const [userProfile, setUserProfile] = useState(null);
 
 	// Handler to change the active component
 	const handleNavigationClick = (componentName) => {
@@ -40,6 +44,54 @@ export default function Example() {
 
 	return (
 		<>
+			<Menu
+							as='div'
+							className='relative ml-3'
+						>
+				<div class="z-0 fixed top-7 right-14">
+					<Menu.Button className='z-0 relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
+						<span className='absolute -inset-1.5 lg:hidden' />
+						{/* <img
+							className='h-8 w-8 rounded-full'
+							src={userProfile?.picture || 'default-profile-image-url'}
+							alt=''
+							/> */}
+						<span className='ml-3 hidden text-sm font-medium text-[#000] lg:block'>
+							<span className='sr-only'>Open user menu for </span>
+							Username
+						</span>
+						<ChevronDownIcon
+							className='ml-1 hidden h-5 w-5 flex-shrink-0 text-[#000] lg:block'
+							aria-hidden='true'
+						/>
+					</Menu.Button>
+				</div>
+				<Transition
+								as={Fragment}
+								enter='transition ease-out duration-100'
+								enterFrom='transform opacity-0 scale-95'
+								enterTo='transform opacity-100 scale-100'
+								leave='transition ease-in duration-75'
+								leaveFrom='transform opacity-100 scale-100'
+								leaveTo='transform opacity-0 scale-95'
+							>
+								<Menu.Items className='fixed top-20 right-14 origin-top-right rounded-md bg-stone py-1 shadow-lg ring-1 ring-[#000] ring-opacity-5 focus:outline-none'>
+									<Menu.Item>
+										{({ active }) => (
+											<a
+												href='#'
+												className={classNames(
+													active ? 'bg-gray-100' : '',
+													'block px-4 py-2 text-sm text-[#000] hover:text-orange'
+												)}
+											>
+												Logout
+											</a>
+										)}
+									</Menu.Item>
+								</Menu.Items>
+							</Transition>
+						</Menu>
 			<div className='bg-custom-theme'>
 				<Transition.Root
 					show={sidebarOpen}
@@ -53,27 +105,32 @@ export default function Example() {
 				</Transition.Root>
 
 				{/* Static sidebar for desktop */}
-				<div className='bg-custom-theme fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
+				<div className='bg-[#e1e1e1] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
 					{/* Sidebar component, swap this element with another sidebar if you like */}
-					<div className='flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6'>
-						<div className='flex h-16 shrink-0 items-center'>
+					<div className='flex grow flex-col gap-y-5 border-r border-gray-200 bg-white'>
+						<div className='flex h-16 shrink-0 items-center px-3'>
 							<img
-								className='h-8 w-auto'
+								className='h-10 w-auto'
 								src={clementineLogo}
 								alt='Your Company'
 							/>
 							<span
 								aria-hidden='true'
 								style={{
-									marginLeft: '0.6rem',
-									marginTop: '0.1rem',
+									marginLeft: '.8rem',
+									marginTop: '0.3rem',
 								}}
-								className='text-orange text-2xl font-medium'
+								className='text-orange text-3xl font-bold'
 							>
 								Clementine
 							</span>
 						</div>
+
+						<div className='border-t border-gray-200 w-full my-[-1rem]'></div>
+
+
 						<nav className='flex flex-1 flex-col'>
+							
 							<ul
 								role='list'
 								className='flex flex-1 flex-col gap-y-7'
@@ -89,10 +146,10 @@ export default function Example() {
 													onClick={() => handleNavigationClick(item.name)}
 													className={classNames(
 														item.current
-															? 'bg-[#fffcf9] text-indigo-600'
-															: 'bg-[#fffcf9] text-gray-700',
-														'hover:text-[#52b386ff]', // Apply hover style to all items
-														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+															? 'bg-[#e1e1e1] text-indigo-600'
+															: 'bg-[#e1e1e1] text-gray-700',
+														'hover:text-[#fa9a00]', // Apply hover style to all items
+														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold px-6 my-4'
 													)}
 												>
 													<item.icon
@@ -147,7 +204,7 @@ export default function Example() {
 					</a>
 				</div>
 
-				<main className='bg-stone lg:pl-72'>
+				<main className='bg-[#e1e1e1] lg:pl-72'>
 					<div className='px-4 py-10 sm:px-6 lg:px-8 lg:py-6'>
 						{activeComponent === 'Payment Dashboard' && <PaymentDashboard />}
 						{activeComponent === 'Tenants' && <ContactTenant />}
