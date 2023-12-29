@@ -13,7 +13,7 @@ module.exports = {
 	theme: {
 		colors: {
 			orange: '#f98500',
-			green: '#52b386ff',
+			green: '#558540',
 			stone: '#fffcf9',
 		},
 		backgroundColor: {

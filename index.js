@@ -26,12 +26,6 @@ const jwtCheck = auth({
 // enforces on all endpoints
 // app.use(jwtCheck);
 
-
-
-
-
-
-
 // test endpoint for auth0
 app.get('/authorized', jwtCheck, function (req, res) {
 	const options = {
@@ -62,25 +56,25 @@ const con = createConnection({
 	user: 'root',
 	password: '',
 
-	// // uncomment after running the query on line 22
+	// // uncomment after running the query on below
 	// // and type db name after running for the first time
-	database: 'proof',
+	// database: 'proof',
 	// ***************
 
 	multipleStatements: true,
 });
 
-// logs successful connection && has query to initialize DB if not already initialized
-// con.connect(function (err) {
-//   if (err) throw err;
-//   console.log('Connected!');
+// this is the one you run
+con.connect(function (err) {
+  if (err) throw err;
+  console.log('Connected!');
 
-//   con.query(sql, function (err, result) {
-//     if (err) throw err;
-//     console.log('Database and table created');
-//   });
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log('Database and table created');
+  });
 
-// });
+});
 app.use(express.json());
 
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, Fragment } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
@@ -365,7 +366,10 @@ export default function Example() {
 											<button
 												type='submit'
 												className='ml-4 inline-flex justify-center rounded-md bg-[#558540] px-3 py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 text-stone ring-1 ring-[#000]'
-												onClick={() => setOpen(false)}
+												onClick={() => {
+													alert('Tenant Added!');
+													setOpen(false);
+												}}
 											>
 												Add Tenant
 											</button>
