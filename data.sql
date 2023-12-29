@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS Transactions;
 DROP TABLE IF EXISTS Properties;
 DROP TABLE  IF EXISTS PaymentMethods;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Receipts;
 -- Use the clementine database
 
 -- Table: Users
@@ -50,7 +51,7 @@ CREATE TABLE Transactions (
     CardNumber VARCHAR(16) DEFAULT NULL,                 -- Card number for credit card.
     RoutingNumber VARCHAR(16) DEFAULT NULL,              -- Routing number for check/bankaccount
     DigitalWalletConfirmation VARCHAR(30) DEFAULT NULL,
-    FiservPaymentID VARCHAR(50)   -- Digital Wallet Confirmation number
+    FiservPaymentID VARCHAR(50),   -- Digital Wallet Confirmation number
     FOREIGN KEY (PropertyID) REFERENCES Properties(PropertyID), -- Relationship with Properties table.
     FOREIGN KEY (TenantID) REFERENCES Users(UserID),           -- Relationship with Users table.
     FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethods(MethodID) -- Relationship with PaymentMethods table.
@@ -67,6 +68,20 @@ CREATE TABLE PaymentHistory (
     FOREIGN KEY (TransactionID) REFERENCES Transactions(TransactionID) -- Relationship with Transactions table.
 );
 
+
+CREATE TABLE Receipts(
+  PaymentID INT AUTO_INCREMENT PRIMARY KEY,
+  PaymentAmount INT,
+  Address VARCHAR(100),
+  Name VARCHAR(35),
+  PaymentDate VARCHAR(10) 
+  );
+
+INSERT INTO Receipts (PaymentAmount, Address, Name,PaymentDate)
+VALUES
+  (123123,'admin@example.com', 'admin_user','2012-01-01'),
+  (123123, 'john.doe@example.com','john_doe','2012-01-02'),
+  (123123, 'jane.smith@example.com','jane_smith', '2012-01-03');
 
 
 
@@ -90,4 +105,4 @@ VALUES
 INSERT INTO Transactions (TransactionID, PropertyID, TenantID, Amount, PaymentMethodID, CardNumber, RoutingNumber, DigitalWalletConfirmation)
 VALUES
   (1, 1, 1, 1000.00, 1, NULL, '123123123', NULL),
-  (2, 2, 2, 20000.00, 2, '1234567890', NULL, NULL);
+  (2, 2, 2, 20000.00, 2, '1234567890', NULL, NULL),;
