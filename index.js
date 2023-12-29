@@ -519,6 +519,7 @@ app.delete('/PaymentHistory/:id', (req, res) => {
 });
 
 
+
 function b64encode (input) {
     var swaps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",  "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/"],
     tb, ib = "",
@@ -547,3 +548,51 @@ function b64encode (input) {
   }
 
   
+
+// Auth0 api token user
+app.post('/get-management-token', async (req, res) => {
+	const options = {
+		method: 'POST',
+		url: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/oauth/token',
+		headers: { 'content-type': 'application/json' },
+		data: {
+			client_id: 'pERLNKBQu6My2BO1JjwLjt01598HRECR',
+			client_secret:
+				'SDJWwk2NQ3hy_qdxXIfoHESjo37GevULaq-K0IOgW0fYUsS3Ka17wleBd9sjHOUE',
+			audience: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/api/v2/',
+			grant_type: 'client_credentials',
+		},
+	};
+
+	try {
+		const response = await axios(options);
+		res.send(response.data.access_token);
+	} catch (error) {
+		console.log('Error obtaining Management API Token:', error);
+		res.status(500).send('Failed to obtain token');
+	}
+});
+
+app.get('/get-roles', async (req, res) => {
+	let config = {
+		method: 'get',
+		maxBodyLength: Infinity,
+		url: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/api/v2/roles/rol_q3kxgXHvsT0KfWXv/users',
+		headers: {
+			Accept: 'application/json',
+		},
+  };
+  
+  const response = await axios(config);
+  res.send(response);
+  console.log(response)
+
+	// axios
+	// 	.request(config)
+	// 	.then((response) => {
+	// 		console.log(JSON.stringify(response.data));
+	// 	})
+	// 	.catch((error) => {
+	// 		console.log(error);
+	// 	});
+});

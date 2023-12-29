@@ -3,7 +3,9 @@ import {
 	Route,
 	Routes,
 	BrowserRouter,
+	json,
 } from 'react-router-dom';
+import axios from 'axios';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { Auth0Provider } from '@auth0/auth0-react';
 import PropTypes from 'prop-types';
@@ -19,6 +21,11 @@ function App() {
 	const { user, isAuthenticated, isLoading } = useAuth0();
 
 	console.log(isAuthenticated);
+	console.log(user);
+
+	const tenantKey = JSON.stringify(user);
+
+	console.log(tenantKey);
 
 	return (
 		<>

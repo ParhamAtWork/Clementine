@@ -1,56 +1,29 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member"
-  },
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton2@example.com",
-    role: "Member",
-  },
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton3@example.com",
-    role: "Member",
-  },
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton4@example.com",
-    role: "Member",
-  },
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton5@example.com",
-    role: "Member",
-  },
-  // More people...
-];
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import LPopoverTenant from './LPopoverTenant';
 
 export default function Example() {
-  const [users, setUsers] = useState([]); // State to hold user data
+	const [users, setUsers] = useState([]); // State to hold user data
+	const [showPopover, setShowPopover] = useState(false);
 
-  useEffect(() => {
-    // Fetch users when the component mounts
-    axios
-      .get("http://localhost:8000/Users")
-      .then((response) => {
-        // Handle the response from the server
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        // Handle errors here if the request fails
-        console.error("There was an error fetching the users!", error);
-      });
-  }, []); // The empty array ensures this effect runs once on mount
+	const handleButtonClick = () => {
+		setShowPopover(!showPopover);
+	};
+
+	useEffect(() => {
+		// Fetch users when the component mounts
+		axios
+			.get('http://localhost:8000/Users')
+			.then((response) => {
+				// Handle the response from the server
+				setUsers(response.data);
+			})
+			.catch((error) => {
+				// Handle errors here if the request fails
+				console.error('There was an error fetching the users!', error);
+			});
+	}, []); // The empty array ensures this effect runs once on mount
+
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -61,6 +34,7 @@ export default function Example() {
         <button
           type="button"
           className=" rounded-md bg-[#52b386ff] text-stone px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={handleButtonClick}
         >
           Add Tenant
         </button>
@@ -155,6 +129,7 @@ export default function Example() {
           </div>
         </div>
       </div>
+      {showPopover && <LPopoverTenant />}
     </div>
   );
 }

@@ -1,7 +1,5 @@
 import clementineLogo from '../assets/clementinesv.svg';
-import './WelcomePage.css';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Auth0Provider } from '@auth0/auth0-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import.meta.env;
