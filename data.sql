@@ -17,7 +17,7 @@ CREATE TABLE Users (
     PasswordHash VARCHAR(100) NOT NULL,    -- Hashed password for security.
     Email VARCHAR(100) NOT NULL UNIQUE,
     Unit VARCHAR(100) NOT NULL UNIQUE,
-    RentDueDate VARCHAR(100) NOT NULL UNIQUE,
+    RentDueDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Address VARCHAR(100) NOT NULL UNIQUE  
 );
 
@@ -75,9 +75,9 @@ CREATE TABLE PaymentHistory (
 
 INSERT INTO Users
 VALUES
-  (1, 'admin', 'admin_user', 'hashed_password_admin', 'admin@example.com', 'Apt 1', 1, '123 Main St, Anytown, USA'),
-  (2, 'regular', 'john_doe', 'hashed_password_user1', 'john.doe@example.com', 2, '456 Central Ave, Metropolis, USA'),
-  (3, 'regular', 'jane_smith', 'hashed_password_user2', 'jane.smith@example.com', 3, '789 Elm St, Springfield, USA');
+  (1, 'admin', 'admin_user', 'hashed_password_admin', 'admin@example.com', 'Apt 1', '2023-12-20 08:00:00', '123 Main St, Anytown, USA'),
+  (2, 'regular', 'john_doe', 'hashed_password_user1', 'john.doe@example.com', 'Apt 2', '2023-12-20 08:00:00', '456 Central Ave, Metropolis, USA'),
+  (3, 'regular', 'jane_smith', 'hashed_password_user2', 'jane.smith@example.com', 'Apt 3', '2023-12-20 08:00:00', '789 Elm St, Springfield, USA');
 
 INSERT INTO PaymentMethods
 VALUES

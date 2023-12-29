@@ -304,9 +304,7 @@ export default function Example() {
 																</span>
 															</td>
 															<td className='whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500'>
-																<time dateTime={transaction.TransactionDate}>
-																	{transaction.TransactionDate}
-																</time>
+																	{Date(transaction.TransactionDate).substring(0, 25)}
 															</td>
 														</tr>
 													))}

@@ -4,7 +4,6 @@ import LPopoverTenant from './LPopoverTenant';
 
 export default function Example() {
 	const [users, setUsers] = useState([]);
-	const [properties, setProperties] = useState([]); 
 	const [showPopover, setShowPopover] = useState(false);
 
 	const handleButtonClick = () => {
@@ -23,23 +22,7 @@ export default function Example() {
 				// Handle errors here if the request fails
 				console.error('There was an error fetching the users!', error);
 			});
-  }, []);
-  
-  useEffect(() => {
-		// Fetch users when the component mounts
-		axios
-			.get('http://localhost:8000/Properties')
-			.then((response) => {
-				// Handle the response from the server
-				setProperties(response.data);
-			})
-			.catch((error) => {
-				// Handle errors here if the request fails
-				console.error('There was an error fetching the users!', error);
-			});
-  }, []);
-  
-
+	}, []);
 
 	return (
 		<div className='px-4 sm:px-6 lg:px-8'>
@@ -100,7 +83,7 @@ export default function Example() {
 								</tr>
 							</thead>
 							<tbody className='divide-y divide-gray-200'>
-                {users.map((user) => (
+								{users.map((user) => (
 									<tr key={user.UserID}>
 										<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0'>
 											{user.Username}
@@ -109,13 +92,13 @@ export default function Example() {
 											{user.Address}
 										</td>
 										<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0'>
-											{user.Email}
+											{user.Unit}
 										</td>
 										<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-0'>
-											{user.Username}
+											{user.Email}
 										</td>
 										<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm  text-gray-900 sm:pl-0'>
-											{user.Username}
+											{Date(user.RentDueDate).substring(0, 15)}
 										</td>
 										<td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0'>
 											<a
@@ -127,7 +110,7 @@ export default function Example() {
 											</a>
 										</td>
 									</tr>
-                  ))}
+								))}
 							</tbody>
 						</table>
 					</div>

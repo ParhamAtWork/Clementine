@@ -22,11 +22,8 @@ function App() {
 	const { user, isAuthenticated, isLoading } = useAuth0();
 
 	console.log(isAuthenticated);
-	console.log(user);
-
-	const tenantKey = JSON.stringify(user);
-
-	console.log(tenantKey);
+	const tenantKey = user;
+	console.log('tenantKey: ', tenantKey?.nickname);
 
 	return (
 		<>
