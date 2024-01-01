@@ -27,7 +27,7 @@ function App() {
   console.log("tenantKey: ", tenantKey?.nickname);
 
   // Check if the user is authenticated and if tenantKey?.nickname is "joseph.schmitt1"
-  // TODO: CHANGE THIS TO BOBBY
+  // TODO: CHANGE THIS TO BOBBY Chickennugget12!
   if (isAuthenticated && tenantKey?.nickname === "joseph.schmitt1") {
     // Redirect to /tenant-dashboard
     navigate('/tenant-dashboard');
