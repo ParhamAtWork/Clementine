@@ -53,12 +53,12 @@ export default function Example() {
 						<span className='absolute -inset-1.5 lg:hidden' />
 						<img
 							className='h-8 w-8 rounded-full'
-							src={user.picture}
+							src={user?.picture}
 							alt=''
 						/>
 						<span className='ml-3 hidden text-sm font-medium text-[#000] lg:block'>
 							<span className='sr-only'>Open user menu for </span>
-							{user.nickname}
+							{use?.nickname}
 						</span>
 						<ChevronDownIcon
 							className='ml-1 hidden h-5 w-5 flex-shrink-0 text-[#000] lg:block'
