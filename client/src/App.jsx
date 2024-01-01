@@ -31,6 +31,8 @@ function App() {
   if (isAuthenticated && tenantKey?.nickname === "joseph.schmitt1") {
     // Redirect to /tenant-dashboard
     navigate('/tenant-dashboard');
+  } else {
+	navigate('/landlord-dashboard');
   }
 
   return (
