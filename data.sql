@@ -44,10 +44,13 @@ CREATE TABLE Properties (
 -- Table: Transactions
 -- This table stores information about financial transactions.
 CREATE TABLE Transactions (
-    TransactionID INT PRIMARY KEY,         -- Unique identifier for each transaction.
+    TransactionID INT AUTO_INCREMENT PRIMARY KEY,         -- Unique identifier for each transaction.
     PropertyID INT NOT NULL,                        -- Foreign key referencing the Properties table.
-    TenantID INT NOT NULL,                          -- Foreign key referencing the Users table for tenant.
-    Amount DECIMAL(10, 2) NOT NULL,        -- Amount of the transaction.
+    TenantID INT NOT NULL,
+    TenantName VARCHAR(100) NOT NULL,                          -- Foreign key referencing the Users table for tenant.
+    Amount DECIMAL(10, 2) NOT NULL,
+    Address VARCHAR(255) NOT NULL,
+    Unit VARCHAR (10) DEFAULT NULL,        -- Amount of the transaction.
     PaymentMethodID INT NOT NULL,                   -- Foreign key referencing the PaymentMethods table.
     TransactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date and time of the transaction.
     CardNumber VARCHAR(16) DEFAULT NULL,                 -- Card number for credit card.
@@ -92,9 +95,20 @@ INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMon
 
 
 
-
-INSERT INTO Transactions (TransactionID, PropertyID, TenantID, Amount, PaymentMethodID, TransactionDate, CardNumber, RoutingNumber, DigitalWalletConfirmation, FiservPaymentID) VALUES
-  (1, 1, 1, 1200.00, 1, '2023-12-20 08:00:00', '1234567890123456', NULL, NULL, 'FPID001'),
-  (2, 2, 2, 1500.00, 2, '2023-12-21 09:00:00', NULL, '123456789012', NULL, 'FPID002'),
-  (3, 3, 3, 1000.00, 3, '2023-12-22 10:00:00', '6543210987654321', NULL, NULL, 'FPID003');
-
+INSERT INTO Transactions (
+    PropertyID,
+    TenantID,
+    TenantName,
+    Amount,
+    Address,
+    Unit,
+    PaymentMethodID,
+    TransactionDate,
+    CardNumber,
+    RoutingNumber,
+    DigitalWalletConfirmation,
+    FiservPaymentID
+) VALUES
+    (1, 1, 'John Doe', 1200.00, '123 Main St', 'Unit A', 1, '2023-12-20 08:00:00', '1234567890123456', '987654321', 'Wallet123', 'FPID001'),
+    (2, 2, 'Jane Smith', 1500.00, '456 Elm St', 'Unit B', 2, '2023-12-21 09:00:00', '2345678901234567', '876543210', 'Wallet456', 'FPID002'),
+    (3, 3, 'Alice Johnson', 1000.00, '789 Oak St', 'Unit C', 3, '2023-12-22 10:00:00', '3456789012345678', '765432109', 'Wallet789', 'FPID003');

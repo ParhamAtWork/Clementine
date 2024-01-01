@@ -1,34 +1,25 @@
-const transactions = [
-	{
-		id: '1',
-		tenantname: 'Garrett Boscoe',
-		address: '123 address road',
-		unit: '1',
-		amountpaid: '$3,509.00',
-		outstandingbalance: '$0',
-		paymentdate: '12/11/2023',
-	},
-	{
-		id: '2',
-		tenantname: 'Garrett Boscoe',
-		address: '123 address road',
-		unit: '1',
-		amountpaid: '$3,509.00',
-		outstandingbalance: '$0',
-		paymentdate: '12/11/2023',
-	},
-	{
-		id: '3',
-		tenantname: 'Garrett Boscoe',
-		address: '123 address road',
-		unit: '1',
-		amountpaid: '$3,509.00',
-		outstandingbalance: '$0',
-		paymentdate: '12/11/2023',
-	}
-];
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 
 export default function Example() {
+	const [transactions, setTransactions] = useState([]); 
+
+	useEffect(() => {
+		// Fetch users when the component mounts
+		axios
+			.get('http://localhost:8000/Transactions')
+			.then((response) => {
+				// Handle the response from the server
+				setTransactions(response.data);
+			})
+			.catch((error) => {
+				// Handle errors here if the request fails
+				console.error('There was an error fetching the users!', error);
+			});
+	}, []);
+
+
 	return (
 		<div className='px-4 sm:px-6 lg:px-8'>
 			<div className='sm:flex flex justify-between'>
@@ -80,13 +71,7 @@ export default function Example() {
 										scope='col'
 										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
 									>
-										Amount Paid
-									</th>
-									<th
-										scope='col'
-										className='whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900'
-									>
-										Remaining Balance
+										Rent Amount
 									</th>
 									<th
 										scope='col'
@@ -104,27 +89,24 @@ export default function Example() {
 							</thead>
 							<tbody className='divide-y divide-gray-200 bg-white'>
 								{transactions.map((transaction) => (
-									<tr key={transaction.id}>
+									<tr key={transaction.TransactionID}>
 										<td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0'>
-											{transaction.id}
+											{transaction.TransactionID}
 										</td>
 										<td className='whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900'>
-											{transaction.tenantname}
+											{transaction.TenantName}
 										</td>
 										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-900'>
-											{transaction.address}
+											{transaction.Address}
 										</td>
 										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-											{transaction.unit}
+											{transaction.Unit}
 										</td>
 										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-											{transaction.amountpaid}
+											{transaction.Amount}
 										</td>
 										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-											{transaction.outstandingbalance}
-										</td>
-										<td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-											{transaction.paymentdate}
+											{Date(transaction.TransactionDate).substring(0, 15)}
 										</td>
 										<td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0'>
 											<a
