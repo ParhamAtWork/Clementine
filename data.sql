@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS Transactions;
 DROP TABLE IF EXISTS Properties;
 DROP TABLE IF EXISTS PaymentMethods;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Receipts;
 -- Use the clementine database
 
 -- Table: Users
@@ -74,6 +75,20 @@ CREATE TABLE PaymentHistory (
 );
 
 
+CREATE TABLE Receipts(
+  PaymentID INT AUTO_INCREMENT PRIMARY KEY,
+  PaymentAmount INT,
+  Address VARCHAR(100),
+  Name VARCHAR(35),
+  PaymentDate VARCHAR(10) 
+  );
+
+INSERT INTO Receipts (PaymentAmount, Address, Name,PaymentDate)
+VALUES
+  (123123,'admin@example.com', 'admin_user','2012-01-01'),
+  (123123, 'john.doe@example.com','john_doe','2012-01-02'),
+  (123123, 'jane.smith@example.com','jane_smith', '2012-01-03');
+
 
 
 INSERT INTO Users
@@ -95,6 +110,7 @@ INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMon
 
 
 
+
 INSERT INTO Transactions (
     PropertyID,
     TenantID,
@@ -112,3 +128,4 @@ INSERT INTO Transactions (
     (1, 1, 'John Doe', 1200.00, '123 Main St', 'Unit A', 1, '2023-12-20 08:00:00', '1234567890123456', '987654321', 'Wallet123', 'FPID001'),
     (2, 2, 'Jane Smith', 1500.00, '456 Elm St', 'Unit B', 2, '2023-12-21 09:00:00', '2345678901234567', '876543210', 'Wallet456', 'FPID002'),
     (3, 3, 'Alice Johnson', 1000.00, '789 Oak St', 'Unit C', 3, '2023-12-22 10:00:00', '3456789012345678', '765432109', 'Wallet789', 'FPID003');
+

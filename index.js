@@ -82,8 +82,22 @@ app.post('/charges', (req, res) => {
 	try {
 	  const BASE_URL = 'https://cert.api.fiservapps.com/ch/payments/v1/charges';
   
-	  const { price, cardNum, cardExpMonth, cardExpYear } = req.body;
-  
+	  const {
+		email,
+		nameOnCard,
+		cardNum,
+		price,
+		cardExpMonth,
+		cardExpYear,
+		cvc,
+		address,
+		city,
+		state,
+		postalCode,
+		paymentAmount,
+		paymentDate } = req.body;
+
+	
 	  const request = {
 		"amount": {
 		  "total": price,
@@ -128,14 +142,17 @@ app.post('/charges', (req, res) => {
 	  axios.post(BASE_URL, requestBody, { headers })
 		.then(response => res.json(response.data))
 		.catch(error => {
-		  console.error("Error making payment: ", error.response.data);
+		  console.error("Error making paymentHERE: ", error.response.data);
 		  res.status(500).json({ error: 'Error making payment' });
 		});
-	} catch (error) {
-	  console.error("Error making payment: ", error);
-	  res.status(500).json({ error: 'Error making payment' });
+
+
+		} catch (error) {
+		console.error("Error making payment: ", error);
+		res.status(500).json({ error: 'Error making payment' });
 	}
   });
+
 
 
 app.use(function (err, req, res, next) {
@@ -566,6 +583,40 @@ app.post('/get-management-token', async (req, res) => {
 		res.status(500).send('Failed to obtain token');
 	}
 });
+
+app.post('/Receipts', (req, res) => {
+	const { paymentAmount, address, city, state, postalCode, nameOnCard, paymentDate } = req.body;
+	const fullAddress = `${address}, ${city}, ${state} ${postalCode}`;
+	const query =
+		'INSERT INTO Receipts (PaymentAmount, Address, Name, PaymentDate) VALUES (?, ?, ?, ?)';
+	con.query(
+		query,
+		[paymentAmount, fullAddress, nameOnCard, paymentDate],
+		function (err) {
+			if (!err) {
+				res.send('Payment created successfully.');
+			} else {
+				console.error('Error while performing Query:', err);
+				res.status(500).json({ error: 'Internal Server Error' });
+			}
+		}
+	);
+});
+
+
+app.get('/Receipts', (req, res) => {
+	con.query('SELECT * FROM Receipts', function (err, rows) {
+		if (!err) {
+			res.send(JSON.stringify(rows));
+		} else {
+			console.error('Error while performing Query:', err);
+			res.status(500).json({ error: 'Internal Server Error' });
+		}
+	});
+});
+
+
+
 
 app.get('/get-roles', async (req, res) => {
 	let config = {
