@@ -34,8 +34,7 @@ function classNames(...classes) {
 export default function Example() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [activeComponent, setActiveComponent] = useState(null);
-	const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
-  	const [userProfile, setUserProfile] = useState(null);
+	const { user, logout } = useAuth0();
 
 	// Handler to change the active component
 	const handleNavigationClick = (componentName) => {
@@ -51,14 +50,14 @@ export default function Example() {
 				<div class="z-0 fixed top-7 right-14">
 					<Menu.Button className='z-0 relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
 						<span className='absolute -inset-1.5 lg:hidden' />
-						{/* <img
+						<img
 							className='h-8 w-8 rounded-full'
-							src={userProfile?.picture || 'default-profile-image-url'}
+							src={user?.picture}
 							alt=''
-							/> */}
+						/>
 						<span className='ml-3 hidden text-sm font-medium text-[#000] lg:block'>
 							<span className='sr-only'>Open user menu for </span>
-							Username
+							{user?.nickname}
 						</span>
 						<ChevronDownIcon
 							className='ml-1 hidden h-5 w-5 flex-shrink-0 text-[#000] lg:block'
@@ -84,6 +83,9 @@ export default function Example() {
 													active ? 'bg-gray-100' : '',
 													'block px-4 py-2 text-sm text-[#000] hover:text-orange'
 												)}
+												onClick={() => {
+													logout({ returnTo: "http:localhost:3000/" })
+												}}
 											>
 												Logout
 											</a>

@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
+import { useAuth0 } from "@auth0/auth0-react";
 import {
 	Bars3Icon,
 	CreditCardIcon,
@@ -33,6 +34,7 @@ function classNames(...classes) {
 export default function Example() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [activeComponent, setActiveComponent] = useState(null);
+	const { user, logout } = useAuth0();
 
 	// Handler to change the active component
 	const handleNavigationClick = (componentName) => {
@@ -51,12 +53,12 @@ export default function Example() {
 						<span className='absolute -inset-1.5 lg:hidden' />
 						<img
 							className='h-8 w-8 rounded-full'
-							src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+							src={user?.picture}
 							alt=''
 						/>
 						<span className='ml-3 hidden text-sm font-medium text-[#000] lg:block'>
 							<span className='sr-only'>Open user menu for </span>
-							Username
+							{user?.nickname}
 						</span>
 						<ChevronDownIcon
 							className='ml-1 hidden h-5 w-5 flex-shrink-0 text-[#000] lg:block'
@@ -82,6 +84,9 @@ export default function Example() {
 													active ? 'bg-gray-100' : '',
 													'block px-4 py-2 text-sm text-[#000] hover:text-orange'
 												)}
+												onClick={() => {
+													logout({ returnTo: "http:localhost:3000/" })
+												}}
 											>
 												Logout
 											</a>
