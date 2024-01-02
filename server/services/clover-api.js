@@ -1,6 +1,3 @@
-//https://docs.clover.com/docs/create-an-ach-token
-//https://docs.clover.com/reference/createcharge
-
 const sdk = require('api')('@clover-platform/v3#3y9az7m36lq0icniw');
 const cloverKey="61a4db14de6681b742c5efdd0a2c57f5"
 const cloverSecret="2346078b-80fa-b90b-f5ed-6008db847e40"
@@ -42,7 +39,8 @@ function tokenize(){
 }
 }
 
-function chargeACH(){
-    sdk.createCharge({ecomind: 'ecom', metadata: {existingDebtIndicator: false}})
-    .then(({ data }) => console.log(data))
-    .catch(err => console.error(err));
+function chargeACH() {
+    sdk.createCharge({ ecomind: 'ecom', metadata: { existingDebtIndicator: false } })
+        .then(({ data }) => console.log(data))
+        .catch(err => console.error(err));
+}

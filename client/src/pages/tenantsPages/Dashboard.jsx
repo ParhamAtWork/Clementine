@@ -58,7 +58,7 @@ export default function Example() {
 						/>
 						<span className='ml-3 hidden text-sm font-medium text-[#000] lg:block'>
 							<span className='sr-only'>Open user menu for </span>
-							{user?.nickname}
+							{user?.name}
 						</span>
 						<ChevronDownIcon
 							className='ml-1 hidden h-5 w-5 flex-shrink-0 text-[#000] lg:block'
