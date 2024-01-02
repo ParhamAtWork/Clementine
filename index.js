@@ -6,10 +6,8 @@ import axios from 'axios';
 import cors from 'cors';
 import CryptoJS from 'crypto-js';
 
-const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
-const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
-
-
+const key = 'KSKfDNBrpEmmAa8t775jCG6kbAGlYNWI';
+const secret = 'DLhfcA81i2TvcG3Wc6vpxAGEsHb1GT40WzYTPshfP3a';
 
 const sql = fs.readFileSync('./data.sql').toString();
 const app = express();
@@ -66,94 +64,92 @@ const con = createConnection({
 
 // this is the one you run
 con.connect(function (err) {
-  if (err) throw err;
-  console.log('Connected!');
+	if (err) throw err;
+	console.log('Connected!');
 
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log('Database and table created');
-  });
-
+	con.query(sql, function (err, result) {
+		if (err) throw err;
+		console.log('Database and table created');
+	});
 });
 app.use(express.json());
 
-
 app.post('/charges', (req, res) => {
 	try {
-	  const BASE_URL = 'https://cert.api.fiservapps.com/ch/payments/v1/charges';
-  
-	  const {
-		email,
-		nameOnCard,
-		cardNum,
-		price,
-		cardExpMonth,
-		cardExpYear,
-		cvc,
-		address,
-		city,
-		state,
-		postalCode,
-		paymentAmount,
-		paymentDate } = req.body;
+		const BASE_URL = 'https://cert.api.fiservapps.com/ch/payments/v1/charges';
 
-	
-	  const request = {
-		"amount": {
-		  "total": price,
-		  "currency": "USD"
-		},
-		"source": {
-		  "sourceType": "PaymentCard",
-		  "card": {
-			"cardData": cardNum,
-			"expirationMonth": cardExpMonth,
-			"expirationYear": cardExpYear
-		  }
-		},
-		"transactionDetails": {
-		  "captureFlag": true
-		},
-		"merchantDetails": {
-		  "merchantId": "100008000003683",
-		  "terminalId": "10000001"
-		}
-	  };
-  
-	  const requestBody = JSON.stringify(request);
-	  const ClientRequestId = Math.floor((Math.random() * 10000000) + 1);
-	  const time = new Date().getTime();
-	  const rawSignature = key + ClientRequestId + time + requestBody;
-  
-	  let computedHash = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secret.toString());
-	  computedHash.update(rawSignature);
-	  computedHash = computedHash.finalize();
-	  const computedHmac = b64encode(computedHash.toString());
-  
-	  const headers = {
-		'Content-Type': 'application/json',
-		'Client-Request-Id': ClientRequestId,
-		'Api-Key': key,
-		'Timestamp': time,
-		'Auth-Token-Type': 'HMAC',
-		'Authorization': computedHmac
-	  };
-  
-	  axios.post(BASE_URL, requestBody, { headers })
-		.then(response => res.json(response.data))
-		.catch(error => {
-		  console.error("Error making paymentHERE: ", error.response.data);
-		  res.status(500).json({ error: 'Error making payment' });
-		});
+		const {
+			email,
+			nameOnCard,
+			cardNum,
+			price,
+			cardExpMonth,
+			cardExpYear,
+			cvc,
+			address,
+			city,
+			state,
+			postalCode,
+			paymentAmount,
+			paymentDate,
+		} = req.body;
 
+		const request = {
+			amount: {
+				total: price,
+				currency: 'USD',
+			},
+			source: {
+				sourceType: 'PaymentCard',
+				card: {
+					cardData: cardNum,
+					expirationMonth: cardExpMonth,
+					expirationYear: cardExpYear,
+				},
+			},
+			transactionDetails: {
+				captureFlag: true,
+			},
+			merchantDetails: {
+				merchantId: '100008000003683',
+				terminalId: '10000001',
+			},
+		};
 
-		} catch (error) {
-		console.error("Error making payment: ", error);
+		const requestBody = JSON.stringify(request);
+		const ClientRequestId = Math.floor(Math.random() * 10000000 + 1);
+		const time = new Date().getTime();
+		const rawSignature = key + ClientRequestId + time + requestBody;
+
+		let computedHash = CryptoJS.algo.HMAC.create(
+			CryptoJS.algo.SHA256,
+			secret.toString()
+		);
+		computedHash.update(rawSignature);
+		computedHash = computedHash.finalize();
+		const computedHmac = b64encode(computedHash.toString());
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'Client-Request-Id': ClientRequestId,
+			'Api-Key': key,
+			Timestamp: time,
+			'Auth-Token-Type': 'HMAC',
+			Authorization: computedHmac,
+		};
+
+		axios
+			.post(BASE_URL, requestBody, { headers })
+			.then((response) => res.json(response.data))
+			.catch((error) => {
+				console.error('Error making paymentHERE: ', error.response.data);
+				res.status(500).json({ error: 'Error making payment' });
+			});
+	} catch (error) {
+		console.error('Error making payment: ', error);
 		res.status(500).json({ error: 'Error making payment' });
 	}
-  });
-
-
+});
 
 app.use(function (err, req, res, next) {
 	console.error(err.stack);
@@ -529,36 +525,99 @@ app.delete('/PaymentHistory/:id', (req, res) => {
 	});
 });
 
-
-
-function b64encode (input) {
-    var swaps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",  "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/"],
-    tb, ib = "",
-    output = "",
-    i, L;
-    for (i=0, L = input.length; i < L; i++) {
-        tb = input.charCodeAt(i).toString(2);
-        while (tb.length < 8) {
-            tb = "0"+tb;
-            }
-        ib = ib + tb;
-        while (ib.length >= 6) {
-            output = output + swaps[parseInt(ib.substring(0,6),2)];
-            ib = ib.substring(6);
-            }
-    }
-    if (ib.length == 4) {
-        tb = ib + "00";
-        output += swaps[parseInt(tb,2)] + "=";
-    }
-    if (ib.length == 2) {
-        tb = ib + "0000";
-        output += swaps[parseInt(tb,2)] + "==";
-    }
-    return output;
-  }
-
-  
+function b64encode(input) {
+	var swaps = [
+			'A',
+			'B',
+			'C',
+			'D',
+			'E',
+			'F',
+			'G',
+			'H',
+			'I',
+			'J',
+			'K',
+			'L',
+			'M',
+			'N',
+			'O',
+			'P',
+			'Q',
+			'R',
+			'S',
+			'T',
+			'U',
+			'V',
+			'W',
+			'X',
+			'Y',
+			'Z',
+			'a',
+			'b',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'h',
+			'i',
+			'j',
+			'k',
+			'l',
+			'm',
+			'n',
+			'o',
+			'p',
+			'q',
+			'r',
+			's',
+			't',
+			'u',
+			'v',
+			'w',
+			'x',
+			'y',
+			'z',
+			'0',
+			'1',
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'8',
+			'9',
+			'+',
+			'/',
+		],
+		tb,
+		ib = '',
+		output = '',
+		i,
+		L;
+	for (i = 0, L = input.length; i < L; i++) {
+		tb = input.charCodeAt(i).toString(2);
+		while (tb.length < 8) {
+			tb = '0' + tb;
+		}
+		ib = ib + tb;
+		while (ib.length >= 6) {
+			output = output + swaps[parseInt(ib.substring(0, 6), 2)];
+			ib = ib.substring(6);
+		}
+	}
+	if (ib.length == 4) {
+		tb = ib + '00';
+		output += swaps[parseInt(tb, 2)] + '=';
+	}
+	if (ib.length == 2) {
+		tb = ib + '0000';
+		output += swaps[parseInt(tb, 2)] + '==';
+	}
+	return output;
+}
 
 // Auth0 api token user
 app.post('/get-management-token', async (req, res) => {
@@ -585,7 +644,15 @@ app.post('/get-management-token', async (req, res) => {
 });
 
 app.post('/Receipts', (req, res) => {
-	const { paymentAmount, address, city, state, postalCode, nameOnCard, paymentDate } = req.body;
+	const {
+		paymentAmount,
+		address,
+		city,
+		state,
+		postalCode,
+		nameOnCard,
+		paymentDate,
+	} = req.body;
 	const fullAddress = `${address}, ${city}, ${state} ${postalCode}`;
 	const query =
 		'INSERT INTO Receipts (PaymentAmount, Address, Name, PaymentDate) VALUES (?, ?, ?, ?)';
@@ -603,7 +670,6 @@ app.post('/Receipts', (req, res) => {
 	);
 });
 
-
 app.get('/Receipts', (req, res) => {
 	con.query('SELECT * FROM Receipts', function (err, rows) {
 		if (!err) {
@@ -615,9 +681,6 @@ app.get('/Receipts', (req, res) => {
 	});
 });
 
-
-
-
 app.get('/get-roles', async (req, res) => {
 	let config = {
 		method: 'get',
@@ -626,11 +689,11 @@ app.get('/get-roles', async (req, res) => {
 		headers: {
 			Accept: 'application/json',
 		},
-  };
-  
-  const response = await axios(config);
-  res.send(response);
-  console.log(response)
+	};
+
+	const response = await axios(config);
+	res.send(response);
+	console.log(response);
 
 	// axios
 	// 	.request(config)

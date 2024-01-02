@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+// import LPopoverProperty from './LPopoverProperty';
 
 export default function Example() {
 	const [property, setProperty] = useState([]);
+	const [showPopover, setShowPopover] = useState(false);
+
+	const handleButtonClick = () => {
+		setShowPopover(!showPopover);
+	};
 
 	useEffect(() => {
 		// Fetch users when the component mounts
@@ -29,6 +35,7 @@ export default function Example() {
 					<button
 						type='button'
 						className=' rounded-md bg-[#558540] text-stone px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+						onClick={handleButtonClick}
 					>
 						Add Property
 					</button>
@@ -110,6 +117,7 @@ export default function Example() {
 					</div>
 				</div>
 			</div>
+			{/* {showPopover && <LPopoverProperty />} */}
 		</div>
 	);
 }

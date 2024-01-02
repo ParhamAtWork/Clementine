@@ -37,7 +37,7 @@ CREATE TABLE Properties (
     Rent DECIMAL(10,2) NOT NULL,     -- Price in rent for the property.
     Address VARCHAR(255) NOT NULL,
     Unit VARCHAR (10) DEFAULT NULL,   -- Address of the property.
-    DueDayOfMonth INT(4),            -- Day of the month on which rent is due
+    DueDayOfMonth TIMESTAMP DEFAULT CURRENT_TIMESTAMP,            -- Day of the month on which rent is due
     OutstandingBalance DECIMAL(10,2) NOT NULL,        -- Total amount of rent past due
     FOREIGN KEY (LandlordID) REFERENCES Users(UserID) -- Relationship with Users table.
 );
@@ -104,9 +104,9 @@ VALUES
   (3, 'digital wallet');
 
 INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance) VALUES
-  (1, 1, 1500.00, '123 Main St, Anytown, USA', 'Apt 1', 1, 0.00),
-  (2, 2, 1800.00, '456 Central Ave, Metropolis, USA', 'Apt 202', 5, 300.00),
-  (3, 3, 2000.00, '789 Elm St, Springfield, USA', 'Apt 423', 1, 0.00);
+  (1, 1, 1500.00, '123 Main St, Anytown, USA', 'Apt 1', '2023-12-20 08:00:00', 0.00),
+  (2, 2, 1800.00, '456 Central Ave, Metropolis, USA', 'Apt 202', '2023-12-20 08:00:00', 300.00),
+  (3, 3, 2000.00, '789 Elm St, Springfield, USA', 'Apt 423', '2023-12-20 08:00:00', 0.00);
 
 
 

@@ -44,10 +44,10 @@ export default function Example() {
 	return (
 		<>
 			<Menu
-							as='div'
-							className='relative ml-3'
-						>
-				<div class="z-0 fixed top-7 right-14">
+				as='div'
+				className='relative ml-3'
+			>
+				<div className='z-0 fixed top-7 right-14'>
 					<Menu.Button className='z-0 relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
 						<span className='absolute -inset-1.5 lg:hidden' />
 						<img
@@ -66,34 +66,34 @@ export default function Example() {
 					</Menu.Button>
 				</div>
 				<Transition
-								as={Fragment}
-								enter='transition ease-out duration-100'
-								enterFrom='transform opacity-0 scale-95'
-								enterTo='transform opacity-100 scale-100'
-								leave='transition ease-in duration-75'
-								leaveFrom='transform opacity-100 scale-100'
-								leaveTo='transform opacity-0 scale-95'
-							>
-								<Menu.Items className='fixed top-20 right-14 origin-top-right rounded-md bg-stone py-1 shadow-lg ring-1 ring-[#000] ring-opacity-5 focus:outline-none'>
-									<Menu.Item>
-										{({ active }) => (
-											<a
-												href='#'
-												className={classNames(
-													active ? 'bg-gray-100' : '',
-													'block px-4 py-2 text-sm text-[#000] hover:text-orange'
-												)}
-												onClick={() => {
-													logout({ returnTo: "http:localhost:3000/" })
-												}}
-											>
-												Logout
-											</a>
-										)}
-									</Menu.Item>
-								</Menu.Items>
-							</Transition>
-						</Menu>
+					as={Fragment}
+					enter='transition ease-out duration-100'
+					enterFrom='transform opacity-0 scale-95'
+					enterTo='transform opacity-100 scale-100'
+					leave='transition ease-in duration-75'
+					leaveFrom='transform opacity-100 scale-100'
+					leaveTo='transform opacity-0 scale-95'
+				>
+					<Menu.Items className='fixed top-20 right-14 origin-top-right rounded-md bg-stone py-1 shadow-lg ring-1 ring-[#000] ring-opacity-5 focus:outline-none'>
+						<Menu.Item>
+							{({ active }) => (
+								<a
+									href='#'
+									className={classNames(
+										active ? 'bg-gray-100' : '',
+										'block px-4 py-2 text-sm text-[#000] hover:text-orange'
+									)}
+									onClick={() => {
+										logout({ returnTo: 'http:localhost:3000/' });
+									}}
+								>
+									Logout
+								</a>
+							)}
+						</Menu.Item>
+					</Menu.Items>
+				</Transition>
+			</Menu>
 			<div className='bg-custom-theme'>
 				<Transition.Root
 					show={sidebarOpen}
@@ -107,7 +107,7 @@ export default function Example() {
 				</Transition.Root>
 
 				{/* Static sidebar for desktop */}
-				<div className='bg-[#e1e1e1] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
+				<div className='bg-[#fffcf9] fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white border-r border-gray-200 lg:w-72'>
 					{/* Sidebar component, swap this element with another sidebar if you like */}
 					<div className='flex grow flex-col gap-y-5 border-r border-gray-200 bg-white'>
 						<div className='flex h-16 shrink-0 items-center px-3'>
@@ -130,9 +130,7 @@ export default function Example() {
 
 						<div className='border-t border-gray-200 w-full my-[-1rem]'></div>
 
-
 						<nav className='flex flex-1 flex-col'>
-							
 							<ul
 								role='list'
 								className='flex flex-1 flex-col gap-y-7'
@@ -148,8 +146,8 @@ export default function Example() {
 													onClick={() => handleNavigationClick(item.name)}
 													className={classNames(
 														item.current
-															? 'bg-[#e1e1e1] text-indigo-600'
-															: 'bg-[#e1e1e1] text-gray-700',
+															? 'bg-[#fffcf9] text-indigo-600'
+															: 'bg-[#fffcf9] text-gray-700',
 														'hover:text-[#fa9a00]', // Apply hover style to all items
 														'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold px-6 my-4'
 													)}
@@ -206,7 +204,7 @@ export default function Example() {
 					</a>
 				</div>
 
-				<main className='bg-[#e1e1e1] lg:pl-72'>
+				<main className='bg-[#fffcf9] lg:pl-72'>
 					<div className='px-4 py-10 sm:px-6 lg:px-8 lg:py-6'>
 						{activeComponent === 'Payment Dashboard' && <PaymentDashboard />}
 						{activeComponent === 'Tenants' && <ContactTenant />}

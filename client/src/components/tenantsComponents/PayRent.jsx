@@ -3,10 +3,7 @@ import { useState, useEffect } from 'react';
 import { makePayment } from '../../../../server/services/fiserv-api.js';
 import axios from 'axios';
 
-
-
 export default function PayRent() {
-
 	const [email, setEmail] = useState('');
 	const [nameOnCard, setNameOnCard] = useState('');
 	const [cardNumber, setCardNumber] = useState('');
@@ -18,19 +15,36 @@ export default function PayRent() {
 	const [postalCode, setPostalCode] = useState('');
 	const [paymentAmount, setPaymentAmount] = useState('');
 	const [paymentDate, setPaymentDate] = useState('');
-
-
+	const [paymentAmounts, setPaymentAmounts] = useState('');
 	const numericPaymentAmount = parseFloat(paymentAmount);
 
 	const handleInputChange = (event, setStateFunction) => {
 		setStateFunction(event.target.value);
 	};
 
-	  useEffect(() => {
+	useEffect(() => {
+		// Fetch users when the component mounts
+		axios
+			.get('http://localhost:8000/Properties')
+			.then((response) => {
+				// Handle the response from the server
+				const rents = response.data.map((property) => property.Rent); // Extract only the Rent from each property
+				setPaymentAmounts(rents);
+				console.log(rents);
+			})
+			.catch((error) => {
+				// Handle errors here if the request fails
+				console.error('There was an error fetching the users!', error);
+			});
+	}, []);
+
+	useEffect(() => {
 		const currentDate = new Date();
-		const formattedDate = `${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
+		const formattedDate = `${
+			currentDate.getMonth() + 1
+		}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
 		setPaymentDate(formattedDate.toString());
-	  }, []);
+	}, []);
 
 	const handleDateChange = (event, setStateFunction) => {
 		let value = event.target.value;
@@ -41,19 +55,17 @@ export default function PayRent() {
 			value = value.replace(/(\d{2})\/(\d{0,2})/, '$1$2');
 		} else {
 			if (value.length <= 4) {
-			value = value.replace(/(\d{2})(\d{0,2})/, '$1 / $2');
+				value = value.replace(/(\d{2})(\d{0,2})/, '$1 / $2');
 			} else {
-			value = value.substring(0, 6);
-			value = value.replace(/(\d{2})(\d{2})/, '$1 / $2');
+				value = value.substring(0, 6);
+				value = value.replace(/(\d{2})(\d{2})/, '$1 / $2');
 			}
 		}
 
 		setStateFunction(value);
-		};
+	};
 
-
-	  const [expMonth, expYear] = expDate.split(' / ');
-
+	const [expMonth, expYear] = expDate.split(' / ');
 
 	// const paymentData = {
 	// 	cardNum: "4005550000000029",
@@ -68,69 +80,76 @@ export default function PayRent() {
 		cardNum: cardNumber,
 		price: numericPaymentAmount,
 
-		cardExpMonth: expMonth,
-		cardExpYear: expYear,
+		cardExpMonth: '01',
+		cardExpYear: '2035',
 		cvc: cvc,
 		address: address,
 		city: city,
 		state: state,
 		postalCode: postalCode,
 		paymentAmount: paymentAmount,
-		paymentDate: paymentDate
-
+		paymentDate: paymentDate,
 	};
-	
 
+	const handlePayButtonClick = () => {
+		axios
+			.post('http://localhost:8000/charges', paymentData)
+			.then((response) => {
+				console.log(response.data);
+				console.log(paymentData);
+				window.alert('Payment Successful!');
+				return axios.post('http://localhost:8000/Receipts', paymentData);
+			})
+			.then((secondResponse) => {
+				console.log(secondResponse.data);
+				window.alert('Both POSTS Successful!');
+			})
+			.catch((error) => {
+				if (error.response) {
+					// LEFT OFF HERE!!!
+					// The request was made and the server responded with a status code
+					// that falls out of the range of 2xx
+					console.error(
+						'Server responded with an error status:',
+						error.response.status
+					);
+					console.error('Error data:', error.response.data);
+					console.log('MINE', error.response.data.error[0]);
 
-	const handlePayButtonClick =  () => {	
-	axios
-       .post("http://localhost:8000/charges", paymentData)
-       .then((response) => {
-		console.log(response.data);
-		console.log(paymentData);
-		window.alert("Payment Successful!");
-		return axios.post("http://localhost:8000/Receipts", paymentData);
-       })
-	   .then ((secondResponse) => {
-		console.log(secondResponse.data);
-		window.alert("Both POSTS Successful!");
-	   })
-       .catch((error) => {
-		if (error.response) {  // LEFT OFF HERE!!!
-			// The request was made and the server responded with a status code
-			// that falls out of the range of 2xx
-			console.error("Server responded with an error status:", error.response.status);
-			console.error("Error data:", error.response.data);
-			console.log("MINE", error.response.data.error[0]);
-	
-			if (error.response.data && error.response.data.error && Array.isArray(error.response.data.error)) {
-			  const apiError = error.response.data.error[0];
-	
-			  // Check the error type and code
-			  if (apiError.type === 'GATEWAY' && apiError.code === '104') {
-				console.error("Gateway error: Unable to assign card to brand (Invalid)");
-				// Handle the specific error case here
-			  } else {
-				// Handle other error cases
-				console.error("Unhandled API error:", apiError.message);
-			  }
-			}
-		  } else if (error.request) {
-			// The request was made but no response was received
-			console.error("No response received from the server");
-		  } else {
-			// Something happened in setting up the request that triggered an Error
-			console.error("Error setting up the request:", error.message);
-		  }
-		});
+					if (
+						error.response.data &&
+						error.response.data.error &&
+						Array.isArray(error.response.data.error)
+					) {
+						const apiError = error.response.data.error[0];
 
+						// Check the error type and code
+						if (apiError.type === 'GATEWAY' && apiError.code === '104') {
+							console.error(
+								'Gateway error: Unable to assign card to brand (Invalid)'
+							);
+							// Handle the specific error case here
+						} else {
+							// Handle other error cases
+							console.error('Unhandled API error:', apiError.message);
+						}
+					}
+				} else if (error.request) {
+					// The request was made but no response was received
+					console.error('No response received from the server');
+				} else {
+					// Something happened in setting up the request that triggered an Error
+					console.error('Error setting up the request:', error.message);
+				}
+			});
+	};
 
 	return (
 		<>
 			<h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
 				Pay Rent
 			</h1>
-			<main className='bg-[#e1e1e1] lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden'>
+			<main className='bg-[#fffcf9] lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden'>
 				<h1 className='sr-only'>Checkout</h1>
 
 				{/* Order summary */}
@@ -138,20 +157,13 @@ export default function PayRent() {
 					aria-labelledby='summary-heading'
 					className='hidden w-full max-w-md flex-col bg-gray-50 lg:flex my-40'
 				>
-
-
-
 					<div className='bottom-0 flex-none border-gray-200 bg-gray-50 p-6'>
-
-
-
 						<form>
 							<label
 								htmlFor='discount-code'
 								className='block text-sm font-medium text-gray-700'
 							>
 								Payment Amount
-
 							</label>
 							<div className='mt-1 flex space-x-4'>
 								<input
@@ -164,22 +176,16 @@ export default function PayRent() {
 								/>
 							</div>
 							<p className='mt-3 text-m font-medium text-gray-700'>
-								Payment Total: {new Intl.NumberFormat('en-US', {
-								style: 'currency',
-								currency: 'USD',
-								}).format(paymentAmount)}
-								</p>
+								Total Due:{' '}
+								{new Intl.NumberFormat('en-US', {
+									style: 'currency',
+									currency: 'USD',
+								}).format(paymentAmounts[0])}
+							</p>
 						</form>
 
-
 						<dl className='mt-4 space-y-2 text-sm font-medium text-gray-500'>
-
-							<div className='flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900'>
-
-							</div>
-
-
-
+							<div className='flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900'></div>
 
 							<button
 								type='submit'
@@ -264,7 +270,7 @@ export default function PayRent() {
 											type='text'
 											id='card-number'
 											name='card-number'
-											value={cardNumber}
+											value='4005550000000029'
 											onChange={(e) => handleInputChange(e, setCardNumber)}
 											autoComplete='cc-number'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
@@ -283,7 +289,7 @@ export default function PayRent() {
 										<input
 											type='text'
 											name='expiration-date'
-											value={expDate}
+											value='01/2035'
 											onChange={(e) => handleDateChange(e, setExpDate)}
 											id='expiration-date'
 											autoComplete='cc-exp'
@@ -357,7 +363,7 @@ export default function PayRent() {
 										htmlFor='region'
 										className='block text-sm font-medium text-gray-700'
 									>
-										State / Province
+										State
 									</label>
 									<div className='mt-1'>
 										<input
