@@ -1,9 +1,6 @@
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 
-
-
-
 const key = 'XoYFvbSP7M79nrijXydCJBSXy1JsbW8b';
 const secret = 'g8GkQUCTJaZk26GQtsNKLT253SPwPN4lSTiMlEcTVPV';
 
