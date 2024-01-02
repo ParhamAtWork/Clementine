@@ -24,6 +24,8 @@ export default function Example() {
 	const [tenantCount, setTenantCount] = useState([]);
 	const [propertyCount, setPropertyCount] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
+	const [totalAmounts, setTotalAmounts] = useState(0);
+	const [receipts, setReceipts] = useState([]);
 
 	useEffect(() => {
 		// Fetch users when the component mounts
@@ -37,6 +39,25 @@ export default function Example() {
 					0
 				);
 				setTotalAmount(totalAmount);
+			})
+			.catch((error) => {
+				// Handle errors here if the request fails
+				console.error('There was an error fetching the transactions!', error);
+			});
+	}, []); // The empty array ensures this effect runs once on mount
+
+	useEffect(() => {
+		// Fetch users when the component mounts
+		axios
+			.get('http://localhost:8000/Receipts')
+			.then((response) => {
+				// Handle the response from the server
+				setReceipts(response.data);
+				const totalAmounts = response.data.reduce(
+					(total, receipt) => total + parseFloat(receipt.PaymentAmount),
+					0
+				);
+				setTotalAmounts(totalAmounts);
 			})
 			.catch((error) => {
 				// Handle errors here if the request fails
@@ -68,7 +89,7 @@ export default function Example() {
 			name: 'Total',
 			href: '#',
 			icon: BanknotesIcon,
-			amount: totalAmount ? `$${totalAmount.toFixed(2)}` : 'Loading...',
+			amount: totalAmounts ? `$${totalAmounts.toFixed(2)}` : 'Loading...',
 		},
 		{
 			name: 'Tenants',
@@ -304,7 +325,10 @@ export default function Example() {
 																</span>
 															</td>
 															<td className='whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500'>
-																	{Date(transaction.TransactionDate).substring(0, 25)}
+																{Date(transaction.TransactionDate).substring(
+																	0,
+																	25
+																)}
 															</td>
 														</tr>
 													))}

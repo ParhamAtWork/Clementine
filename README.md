@@ -1,30 +1,3 @@
-import { Route, Routes} from "react-router-dom";
-import "./App.css";
-import { Home, Login, Registration , Dashboard} from pages
-import Dashboard components
-
-<!-- const App = () => { -->
-
-  <!-- return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Registration />} />
-      <Route path="/dashboard" element={<Dashboard />}/>
-      <Route path="/dashboard/searchrenter" element={<SearchRental/>}/>
-      <Route path="/dashboard/createnewrenter" element={<CreateNewRental/>}/>
-        <Route path="/dashboard/addnewrenter" element={<AddNewRental/>}/>
-        <Route path="/dashboard/renterdetails" element={<RenterDetails/>}/>
-        <Route path="/dashboard/paymentsrecord" element={<PaymentsRecord/>}/>
-        <Route path="/dashboard/totalrentcollected" element={<TotalRentCollected/>}/>
-        <Route path="/dashboard/propertylisting" element={<PropertyListing/>}/>
-        <Route path="/dashboard/listedproperty" element={<ListedProperty/>}/>
-    </Routes>
-  );
-};
-
-export default App; -->
-
 color resources
 
 Tailwind

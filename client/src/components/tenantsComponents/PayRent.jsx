@@ -1,6 +1,5 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { useState, useEffect } from 'react';
-import { makePayment } from '../../../../server/services/fiserv-api.js';
 import axios from 'axios';
 
 export default function PayRent() {
@@ -15,28 +14,12 @@ export default function PayRent() {
 	const [postalCode, setPostalCode] = useState('');
 	const [paymentAmount, setPaymentAmount] = useState('');
 	const [paymentDate, setPaymentDate] = useState('');
-	const [paymentAmounts, setPaymentAmounts] = useState('');
+
 	const numericPaymentAmount = parseFloat(paymentAmount);
 
 	const handleInputChange = (event, setStateFunction) => {
 		setStateFunction(event.target.value);
 	};
-
-	useEffect(() => {
-		// Fetch users when the component mounts
-		axios
-			.get('http://localhost:8000/Properties')
-			.then((response) => {
-				// Handle the response from the server
-				const rents = response.data.map((property) => property.Rent); // Extract only the Rent from each property
-				setPaymentAmounts(rents);
-				console.log(rents);
-			})
-			.catch((error) => {
-				// Handle errors here if the request fails
-				console.error('There was an error fetching the users!', error);
-			});
-	}, []);
 
 	useEffect(() => {
 		const currentDate = new Date();
@@ -80,8 +63,8 @@ export default function PayRent() {
 		cardNum: cardNumber,
 		price: numericPaymentAmount,
 
-		cardExpMonth: '01',
-		cardExpYear: '2035',
+		cardExpMonth: expMonth,
+		cardExpYear: expYear,
 		cvc: cvc,
 		address: address,
 		city: city,
@@ -102,7 +85,6 @@ export default function PayRent() {
 			})
 			.then((secondResponse) => {
 				console.log(secondResponse.data);
-				window.alert('Both POSTS Successful!');
 			})
 			.catch((error) => {
 				if (error.response) {
@@ -113,8 +95,6 @@ export default function PayRent() {
 						'Server responded with an error status:',
 						error.response.status
 					);
-					console.error('Error data:', error.response.data);
-					console.log('MINE', error.response.data.error[0]);
 
 					if (
 						error.response.data &&
@@ -176,11 +156,11 @@ export default function PayRent() {
 								/>
 							</div>
 							<p className='mt-3 text-m font-medium text-gray-700'>
-								Total Due:{' '}
+								Payment Total:{' '}
 								{new Intl.NumberFormat('en-US', {
 									style: 'currency',
 									currency: 'USD',
-								}).format(paymentAmounts[0])}
+								}).format(paymentAmount)}
 							</p>
 						</form>
 
@@ -270,7 +250,7 @@ export default function PayRent() {
 											type='text'
 											id='card-number'
 											name='card-number'
-											value='4005550000000029'
+											value={cardNumber}
 											onChange={(e) => handleInputChange(e, setCardNumber)}
 											autoComplete='cc-number'
 											className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
@@ -289,7 +269,7 @@ export default function PayRent() {
 										<input
 											type='text'
 											name='expiration-date'
-											value='01/2035'
+											value={expDate}
 											onChange={(e) => handleDateChange(e, setExpDate)}
 											id='expiration-date'
 											autoComplete='cc-exp'
@@ -363,7 +343,7 @@ export default function PayRent() {
 										htmlFor='region'
 										className='block text-sm font-medium text-gray-700'
 									>
-										State
+										State / Province
 									</label>
 									<div className='mt-1'>
 										<input
