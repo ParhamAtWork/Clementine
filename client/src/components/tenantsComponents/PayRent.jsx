@@ -123,6 +123,7 @@ export default function PayRent() {
 			console.error("Error setting up the request:", error.message);
 		  }
 		});
+	}
 
 
 	return (
@@ -451,3 +452,4 @@ export default function PayRent() {
 		</>
 	);
 }
+
