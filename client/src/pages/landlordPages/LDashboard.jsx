@@ -33,7 +33,7 @@ function classNames(...classes) {
 
 export default function Example() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [activeComponent, setActiveComponent] = useState(null);
+	const [activeComponent, setActiveComponent] = useState('Payment Dashboard');
 	const { user, logout } = useAuth0();
 
 	// Handler to change the active component

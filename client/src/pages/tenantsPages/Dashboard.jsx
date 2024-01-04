@@ -33,7 +33,7 @@ function classNames(...classes) {
 
 export default function Example() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [activeComponent, setActiveComponent] = useState(null);
+	const [activeComponent, setActiveComponent] = useState('Pay Rent');
 	const { user, logout } = useAuth0();
 
 	// Handler to change the active component
@@ -48,7 +48,7 @@ export default function Example() {
 					as='div'
 					className='relative ml-3'
 				>
-					<div class='z-0 fixed top-7 right-14'>
+					<div className='z-0 fixed top-7 right-14'>
 						<Menu.Button className='z-0 relative flex max-w-xs items-center justify-end rounded-full bg-white text-sm focus:ring-2 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50'>
 							<span className='absolute -inset-1.5 lg:hidden' />
 							<img

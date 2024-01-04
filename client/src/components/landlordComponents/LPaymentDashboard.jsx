@@ -320,7 +320,7 @@ export default function Example() {
 																</span>
 															</td>
 															<td className='whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500'>
-																{Date(receipt.PaymentDate).substring(0, 25)}
+																{receipt.PaymentDate}
 															</td>
 														</tr>
 													))}

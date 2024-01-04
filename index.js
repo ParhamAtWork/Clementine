@@ -5,6 +5,8 @@ import { auth } from 'express-oauth2-jwt-bearer';
 import axios from 'axios';
 import cors from 'cors';
 import CryptoJS from 'crypto-js';
+import bodyParser from 'body-parser'
+import nodemailer from 'nodemailer'
 
 const key = 'KSKfDNBrpEmmAa8t775jCG6kbAGlYNWI';
 const secret = 'DLhfcA81i2TvcG3Wc6vpxAGEsHb1GT40WzYTPshfP3a';
@@ -696,4 +698,40 @@ app.get('/get-roles', async (req, res) => {
 	// 	.catch((error) => {
 	// 		console.log(error);
 	// 	});
+});
+
+// Body parser middleware to parse JSON data
+app.use(bodyParser.json());
+
+// Define a POST route to handle email sending
+app.post('/send-email', (req, res) => {
+  const { firstName, lastName, email, phoneNumber, message } = req.body;
+
+  // Create a Nodemailer transporter
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'schmitttyy@gmail.com',
+      pass: 'prid yojr rxmd bffq',
+    },
+  });
+
+  // Email data
+  const mailOptions = {
+    from: 'schmitttyy@gmail.com',
+    to: 'schmitt.joseph.c@gmail.com',
+    subject: 'Contact Form Submission',
+    text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nMessage: ${message}`,
+  };
+
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ success: false, error: 'Error sending email' });
+    } else {
+      console.log('Email sent:', info.response);
+      res.status(200).json({ success: true, message: 'Email sent successfully' });
+    }
+  });
 });
