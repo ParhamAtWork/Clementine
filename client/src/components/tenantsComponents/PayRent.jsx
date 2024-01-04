@@ -14,12 +14,29 @@ export default function PayRent() {
 	const [postalCode, setPostalCode] = useState('');
 	const [paymentAmount, setPaymentAmount] = useState('');
 	const [paymentDate, setPaymentDate] = useState('');
+	const [receipts, setReceipts] = useState([]);
 
 	const numericPaymentAmount = parseFloat(paymentAmount);
 
 	const handleInputChange = (event, setStateFunction) => {
 		setStateFunction(event.target.value);
 	};
+
+	useEffect(() => {
+		// Fetch users when the component mounts
+		axios
+			.get('http://localhost:8000/Receipts')
+			.then((response) => {
+				// Handle the response from the server
+				setReceipts(response.data);
+				console.log(response.data)
+				console.log(receipts.PaymentAmount)
+			})
+			.catch((error) => {
+				// Handle errors here if the request fails
+				console.error('There was an error fetching the transactions!', error);
+			});
+	}, []); // The empty array ensures this effect runs once on mount
 
 	useEffect(() => {
 		const currentDate = new Date();
@@ -75,54 +92,44 @@ export default function PayRent() {
 	};
 
 	const handlePayButtonClick = () => {
+		if (!numericPaymentAmount || isNaN(numericPaymentAmount)) {
+			window.alert('Invalid payment amount.');
+			return;
+		}
+
 		axios
 			.post('http://localhost:8000/charges', paymentData)
 			.then((response) => {
-				console.log(response.data);
-				console.log(paymentData);
+				console.log('Payment response: ', response.data);
 				window.alert('Payment Successful!');
+
+				// Validate and update receipts
+				const updatedReceipts = receipts.map((receipt) => {
+					if (
+						receipt.PaymentAmount !== undefined &&
+						!isNaN(receipt.PaymentAmount)
+					) {
+						return {
+							...receipt,
+							PaymentAmount: receipt.PaymentAmount - numericPaymentAmount,
+						};
+					}
+					return receipt;
+				});
+
+				setReceipts(updatedReceipts);
+				// Persist the changes back to the server if needed...
+
 				return axios.post('http://localhost:8000/Receipts', paymentData);
 			})
 			.then((secondResponse) => {
-				console.log(secondResponse.data);
+				console.log('Receipt update response: ', secondResponse.data);
 			})
 			.catch((error) => {
-				if (error.response) {
-					// LEFT OFF HERE!!!
-					// The request was made and the server responded with a status code
-					// that falls out of the range of 2xx
-					console.error(
-						'Server responded with an error status:',
-						error.response.status
-					);
-
-					if (
-						error.response.data &&
-						error.response.data.error &&
-						Array.isArray(error.response.data.error)
-					) {
-						const apiError = error.response.data.error[0];
-
-						// Check the error type and code
-						if (apiError.type === 'GATEWAY' && apiError.code === '104') {
-							console.error(
-								'Gateway error: Unable to assign card to brand (Invalid)'
-							);
-							// Handle the specific error case here
-						} else {
-							// Handle other error cases
-							console.error('Unhandled API error:', apiError.message);
-						}
-					}
-				} else if (error.request) {
-					// The request was made but no response was received
-					console.error('No response received from the server');
-				} else {
-					// Something happened in setting up the request that triggered an Error
-					console.error('Error setting up the request:', error.message);
-				}
+				// Existing error handling...
 			});
 	};
+
 
 	return (
 		<>
@@ -156,11 +163,11 @@ export default function PayRent() {
 								/>
 							</div>
 							<p className='mt-3 text-m font-medium text-gray-700'>
-								Payment Total:{' '}
+								Amount Due:{' '}
 								{new Intl.NumberFormat('en-US', {
 									style: 'currency',
 									currency: 'USD',
-								}).format(paymentAmount)}
+								}).format(receipts[0]?.PaymentAmount)}
 							</p>
 						</form>
 

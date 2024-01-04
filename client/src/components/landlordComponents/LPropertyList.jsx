@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import LPopoverProperty from './LPopoverProperty';
+import LPopoverProperty from './LPopoverProperty';
 
 export default function Example() {
 	const [property, setProperty] = useState([]);
@@ -10,8 +10,7 @@ export default function Example() {
 		setShowPopover(!showPopover);
 	};
 
-	useEffect(() => {
-		// Fetch users when the component mounts
+	const fetchProperties = () => {
 		axios
 			.get('http://localhost:8000/Properties')
 			.then((response) => {
@@ -20,8 +19,12 @@ export default function Example() {
 			})
 			.catch((error) => {
 				// Handle errors here if the request fails
-				console.error('There was an error fetching the transactions!', error);
+				console.error('There was an error fetching the properties!', error);
 			});
+	};
+
+	useEffect(() => {
+		fetchProperties();
 	}, []); // The empty array ensures this effect runs once on mount
 
 	return (
@@ -117,7 +120,7 @@ export default function Example() {
 					</div>
 				</div>
 			</div>
-			{/* {showPopover && <LPopoverProperty />} */}
+			{showPopover && <LPopoverProperty />}
 		</div>
 	);
 }

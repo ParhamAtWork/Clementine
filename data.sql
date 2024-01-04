@@ -32,13 +32,12 @@ CREATE TABLE PaymentMethods (
 -- Table: Properties
 -- This table stores information about properties owned by landlords.
 CREATE TABLE Properties (
-    PropertyID INT PRIMARY KEY,      -- Unique identifier for each property.
+    PropertyID INT AUTO_INCREMENT PRIMARY KEY,      -- Unique identifier for each property.
     LandlordID INT NOT NULL,         -- Foreign key referencing the Users table for landlord.
     Rent DECIMAL(10,2) NOT NULL,     -- Price in rent for the property.
     Address VARCHAR(255) NOT NULL,
     Unit VARCHAR (10) DEFAULT NULL,   -- Address of the property.
-    DueDayOfMonth TIMESTAMP DEFAULT CURRENT_TIMESTAMP,            -- Day of the month on which rent is due
-    OutstandingBalance DECIMAL(10,2) NOT NULL,        -- Total amount of rent past due
+    DueDayOfMonth TIMESTAMP DEFAULT CURRENT_TIMESTAMP,        -- Total amount of rent past due
     FOREIGN KEY (LandlordID) REFERENCES Users(UserID) -- Relationship with Users table.
 );
 
@@ -85,9 +84,9 @@ CREATE TABLE Receipts(
 
 INSERT INTO Receipts (PaymentAmount, Address, Name,PaymentDate)
 VALUES
-  (123123,'admin@example.com', 'admin_user','2012-01-01'),
-  (123123, 'john.doe@example.com','john_doe','2012-01-02'),
-  (123123, 'jane.smith@example.com','jane_smith', '2012-01-03');
+  (2300,'admin@example.com', 'admin_user','2012-01-01'),
+  (1800, 'john.doe@example.com','john_doe','2012-01-02'),
+  (1900, 'jane.smith@example.com','jane_smith', '2012-01-03');
 
 
 
@@ -103,10 +102,10 @@ VALUES
   (2, 'check'),
   (3, 'digital wallet');
 
-INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance) VALUES
-  (1, 1, 1500.00, '123 Main St, Anytown, USA', 'Apt 1', '2023-12-20 08:00:00', 0.00),
-  (2, 2, 1800.00, '456 Central Ave, Metropolis, USA', 'Apt 202', '2023-12-20 08:00:00', 300.00),
-  (3, 3, 2000.00, '789 Elm St, Springfield, USA', 'Apt 423', '2023-12-20 08:00:00', 0.00);
+INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth) VALUES
+  (1, 1, 1500.00, '123 Main St, Anytown, USA', 'Apt 1', '2023-12-20 08:00:00'),
+  (2, 2, 1800.00, '456 Central Ave, Metropolis, USA', 'Apt 202', '2023-12-20 08:00:00'),
+  (3, 3, 2000.00, '789 Elm St, Springfield, USA', 'Apt 423', '2023-12-20 08:00:00');
 
 
 

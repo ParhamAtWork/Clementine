@@ -286,31 +286,23 @@ app.get('/Properties', (req, res) => {
 });
 
 app.post('/Properties', (req, res) => {
-	const {
-		PropertyID,
-		LandlordID,
-		Rent,
-		Address,
-		Unit,
-		DueDayOfMonth,
-		OutstandingBalance,
-	} = req.body;
+	const { LandlordID, Rent, Address, Unit, DueDayOfMonth } = req.body;
+
+	// Removed PropertyID from the query and values
 	const query =
-		'INSERT INTO Properties (PropertyID, LandlordID, Rent, Address, Unit, DueDayOfMonth, OutstandingBalance) VALUES (?, ?, ?, ?, ?, ?)';
+		'INSERT INTO Properties (LandlordID, Rent, Address, Unit, DueDayOfMonth) VALUES (?, ?, ?, ?, ?)';
 	con.query(
 		query,
-		[
-			PropertyID,
-			LandlordID,
-			Rent,
-			Address,
-			Unit,
-			DueDayOfMonth,
-			OutstandingBalance,
-		],
-		function (err) {
+		[LandlordID, Rent, Address, Unit, DueDayOfMonth],
+		function (err, result) {
 			if (!err) {
-				res.send('Property added successfully.');
+				// Send back the ID of the newly created property, if needed
+				res
+					.status(201)
+					.send({
+						message: 'Property added successfully.',
+						propertyId: result.insertId,
+					});
 			} else {
 				console.error('Error while performing Query:', err);
 				res.status(500).json({ error: 'Internal Server Error' });
@@ -318,6 +310,7 @@ app.post('/Properties', (req, res) => {
 		}
 	);
 });
+
 
 app.put('/Properties/:id', (req, res) => {
 	const PropertyID = req.params.id;

@@ -7,13 +7,11 @@ import { Dialog, Transition } from '@headlessui/react';
 export default function Example() {
 	const [open, setOpen] = useState(true);
 	const [formData, setFormData] = useState({
-		propId: '4',
-		landId: '4',
-		rentAmount: '',
-		streetAddress: '',
-		aptNum: '',
-		dueDate: '',
-		outstandingBal: '1000',
+		LandlordID: 3,
+		Rent: '',
+		Address: '',
+		Unit: '',
+		DueDayOfMonth: '2023-12-20 08:00:00'
 	});
 
 	// Handle input changes
@@ -30,7 +28,7 @@ export default function Example() {
 		try {
 			const response = await axios.post(
 				'http://localhost:8000/Properties',
-				propertyData
+				formData
 			); // Replace with your API endpoint
 			console.log('Property added!', response.data);
 		} catch (error) {
@@ -39,7 +37,6 @@ export default function Example() {
 	};
 
 	useEffect(() => {
-
 	}, []);
 
 	
@@ -69,7 +66,10 @@ export default function Example() {
 								leaveTo='translate-x-full'
 							>
 								<Dialog.Panel className='pointer-events-auto w-screen max-w-md'>
-									<form className='flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl'>
+									<form
+										className='flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl'
+										onSubmit={handleSubmit}
+									>
 										<div className='h-0 flex-1 overflow-y-auto'>
 											<div className='bg-indigo-700 px-4 py-6 sm:px-6'>
 												<div className='flex items-center justify-between'>
@@ -101,44 +101,43 @@ export default function Example() {
 											<div className='flex flex-1 flex-col justify-between'>
 												<div className='divide-y divide-gray-200 px-4 sm:px-6'>
 													<div className='space-y-6 pb-5 pt-6'>
-														<form onSubmit={handleSubmit}>
-															<div>
-																<label
-																	htmlFor='project-name'
-																	className='block text-sm font-medium leading-6 text-gray-900'
-																>
-																	Street Address
-																</label>
-																<div className='mt-2'>
-																	<input
-																		type='text'
-																		name='streetAddress'
-																		id='street-address'
-																		onChange={handleInputChange}
-																		value={formData.streetAddress}
-																		className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-																	/>
-																</div>
+														<div>
+															<label
+																htmlFor='project-name'
+																className='block text-sm font-medium leading-6 text-gray-900'
+															>
+																Street Address
+															</label>
+															<div className='mt-2'>
+																<input
+																	type='text'
+																	name='Address'
+																	id='Address'
+																	onChange={handleInputChange}
+																	value={formData.Address}
+																	className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+																/>
 															</div>
-															<div>
-																<label
-																	htmlFor='project-name'
-																	className='block text-sm font-medium leading-6 text-gray-900'
-																>
-																	Apt. #
-																</label>
-																<div className='mt-2'>
-																	<input
-																		type='number'
-																		name='aptNum'
-																		id='apt-num'
-																		onChange={handleInputChange}
-																		value={formData.aptNum}
-																		className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-																	/>
-																</div>
+														</div>
+														<div>
+															<label
+																htmlFor='project-name'
+																className='block text-sm font-medium leading-6 text-gray-900'
+															>
+																Apt. #
+															</label>
+															<div className='mt-2'>
+																<input
+																	type='text'
+																	name='Unit'
+																	id='Unit'
+																	onChange={handleInputChange}
+																	value={formData.Unit}
+																	className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+																/>
 															</div>
-															{/* <div>
+														</div>
+														{/* <div>
 																<label
 																	htmlFor='project-name'
 																	className='block text-sm font-medium leading-6 text-gray-900'
@@ -193,25 +192,24 @@ export default function Example() {
 																	/>
 																</div>
 															</div> */}
-															<div>
-																<label
-																	htmlFor='project-name'
-																	className='block text-sm font-medium leading-6 text-gray-900'
-																>
-																	Rent Amount
-																</label>
-																<div className='mt-2'>
-																	<input
-																		type='number'
-																		name='rentAmount'
-																		id='rent-amount'
-																		onChange={handleInputChange}
-																		value={formData.rentAmount}
-																		className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-																	/>
-																</div>
+														<div>
+															<label
+																htmlFor='project-name'
+																className='block text-sm font-medium leading-6 text-gray-900'
+															>
+																Rent Amount
+															</label>
+															<div className='mt-2'>
+																<input
+																	type='number'
+																	name='Rent'
+																	id='Rent'
+																	onChange={handleInputChange}
+																	value={formData.Rent}
+																	className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+																/>
 															</div>
-														</form>
+														</div>
 													</div>
 												</div>
 											</div>

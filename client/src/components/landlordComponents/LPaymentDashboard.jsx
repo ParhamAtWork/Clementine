@@ -287,15 +287,15 @@ export default function Example() {
 													</tr>
 												</thead>
 												<tbody className='divide-y divide-gray-200 bg-white'>
-													{transactions.map((transaction) => (
+													{receipts.map((receipt) => (
 														<tr
-															key={transaction.TransactionID}
+															key={receipt.PaymentID}
 															className='bg-white'
 														>
 															<td className='w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-[#fac398]'>
 																<div className='flex'>
 																	<a
-																		href={transaction.href}
+																		href={receipt.href}
 																		className='group inline-flex space-x-2 truncate text-sm'
 																	>
 																		<BanknotesIcon
@@ -303,32 +303,24 @@ export default function Example() {
 																			aria-hidden='true'
 																		/>
 																		<p className='truncate text-[#000] '>
-																			{transaction.TransactionID}
+																			{receipt.PaymentID}
 																		</p>
 																	</a>
 																</div>
 															</td>
 															<td className='whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500'>
 																<span className='font-medium text-gray-900'>
-																	{'$ ' + transaction.Amount}
+																	{'$ ' + receipt.PaymentAmount}
 																</span>
-																{transaction.currency}
+																{receipt.currency}
 															</td>
-															<td className='hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block'>
-																<span
-																	className={classNames(
-																		statusStyles[transaction.FiservPaymentID],
-																		'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize'
-																	)}
-																>
-																	{transaction.FiservPaymentID}
+															<td className='whitespace-nowrap px-3 py-4 text-sm'>
+																<span className='inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-[#558540] text-[#558540]'>
+																	{'Paid'}
 																</span>
 															</td>
 															<td className='whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500'>
-																{Date(transaction.TransactionDate).substring(
-																	0,
-																	25
-																)}
+																{Date(receipt.PaymentDate).substring(0, 25)}
 															</td>
 														</tr>
 													))}
