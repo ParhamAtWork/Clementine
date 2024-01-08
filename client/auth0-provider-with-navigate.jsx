@@ -7,8 +7,8 @@ import.meta.env;
 export const Auth0ProviderWithNavigate = ({ children }) => {
 	const navigate = useNavigate();
 
-	const domain = 'dev-wyvx8c2jswjwvuxo.us.auth0.com';
-	const clientId = 'HSjhZMZWxMGNxjM5DtBD5hTxHH0Fm0ql';
+	const domain = 'us.auth0.com';
+	const clientId = '';
 	const redirectUri = 'http://localhost:3000/landlord-dashboard';
 
 	const onRedirectCallback = (appState) => {
