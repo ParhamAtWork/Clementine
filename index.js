@@ -111,7 +111,7 @@ app.post('/charges', (req, res) => {
 				captureFlag: true,
 			},
 			merchantDetails: {
-				merchantId: '100008000003683',
+				merchantId: '',
 				terminalId: '10000001',
 			},
 		};
