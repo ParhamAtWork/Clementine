@@ -6,8 +6,8 @@ import axios from 'axios';
 import cors from 'cors';
 import CryptoJS from 'crypto-js';
 
-const key = 'KSKfDNBrpEmmAa8t775jCG6kbAGlYNWI';
-const secret = 'DLhfcA81i2TvcG3Wc6vpxAGEsHb1GT40WzYTPshfP3a';
+const key = '';
+const secret = '';
 
 const sql = fs.readFileSync('./data.sql').toString();
 const app = express();
@@ -33,7 +33,7 @@ app.get('/authorized', jwtCheck, function (req, res) {
 		data: {
 			client_id: 'Fwc1BoClOwXqMJtg2jL1WdfNbwrKybqP',
 			client_secret:
-				'NmgmuHgNNNM-NOoZVPMYgMNWxpbPyRss-hfqwRXAUvus9-dHawn5sXbjp9vsNxl8',
+				'',
 			audience: 'http:localhost:3010/api/private',
 			grant_type: 'client_credentials',
 		},
@@ -628,7 +628,7 @@ app.post('/get-management-token', async (req, res) => {
 		data: {
 			client_id: 'pERLNKBQu6My2BO1JjwLjt01598HRECR',
 			client_secret:
-				'SDJWwk2NQ3hy_qdxXIfoHESjo37GevULaq-K0IOgW0fYUsS3Ka17wleBd9sjHOUE',
+				'',
 			audience: 'https://dev-wyvx8c2jswjwvuxo.us.auth0.com/api/v2/',
 			grant_type: 'client_credentials',
 		},
